@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blibee.umbrella.dao.HandleResultMapper">
+  <resultMap id="BaseResultMap" type="com.blibee.umbrella.pojo.HandleResult">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="work_id" jdbcType="BIGINT" property="workId" />
+    <result column="umbrella_cabinet_number" jdbcType="VARCHAR" property="umbrellaCabinetNumber" />
+    <result column="umbrella_cabinet_coordinate" jdbcType="TINYINT" property="umbrellaCabinetCoordinate" />
+    <result column="umbrella_total_num" jdbcType="VARCHAR" property="umbrellaTotalNum" />
+    <result column="umbrella_damaged_num" jdbcType="VARCHAR" property="umbrellaDamagedNum" />
+    <result column="code_state" jdbcType="TINYINT" property="codeState" />
+    <result column="borrow_state" jdbcType="TINYINT" property="borrowState" />
+    <result column="return_state" jdbcType="TINYINT" property="returnState" />
+    <result column="voice_state" jdbcType="TINYINT" property="voiceState" />
+    <result column="position_state" jdbcType="TINYINT" property="positionState" />
+    <result column="hardware_state" jdbcType="TINYINT" property="hardwareState" />
+    <result column="handle_state" jdbcType="TINYINT" property="handleState" />
+    <result column="feedback_hardware_value" jdbcType="VARCHAR" property="feedbackHardwareValue" />
+    <result column="feedback_desc" jdbcType="VARCHAR" property="feedbackDesc" />
+    <result column="pic" jdbcType="VARCHAR" property="pic" />
+    <result column="video" jdbcType="VARCHAR" property="video" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, work_id, umbrella_cabinet_number, umbrella_cabinet_coordinate, umbrella_total_num, 
+    umbrella_damaged_num, code_state, borrow_state, return_state, voice_state, position_state, 
+    hardware_state, handle_state, feedback_hardware_value, feedback_desc, pic, video, 
+    create_user, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.blibee.umbrella.pojo.HandleResultExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from handle_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from handle_result
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from handle_result
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blibee.umbrella.pojo.HandleResultExample">
+    delete from handle_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blibee.umbrella.pojo.HandleResult">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into handle_result (work_id, umbrella_cabinet_number, umbrella_cabinet_coordinate, 
+      umbrella_total_num, umbrella_damaged_num, code_state, 
+      borrow_state, return_state, voice_state, 
+      position_state, hardware_state, handle_state, 
+      feedback_hardware_value, feedback_desc, pic, 
+      video, create_user, create_time, 
+      update_time)
+    values (#{workId,jdbcType=BIGINT}, #{umbrellaCabinetNumber,jdbcType=VARCHAR}, #{umbrellaCabinetCoordinate,jdbcType=TINYINT}, 
+      #{umbrellaTotalNum,jdbcType=VARCHAR}, #{umbrellaDamagedNum,jdbcType=VARCHAR}, #{codeState,jdbcType=TINYINT}, 
+      #{borrowState,jdbcType=TINYINT}, #{returnState,jdbcType=TINYINT}, #{voiceState,jdbcType=TINYINT}, 
+      #{positionState,jdbcType=TINYINT}, #{hardwareState,jdbcType=TINYINT}, #{handleState,jdbcType=TINYINT}, 
+      #{feedbackHardwareValue,jdbcType=VARCHAR}, #{feedbackDesc,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, 
+      #{video,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blibee.umbrella.pojo.HandleResult">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into handle_result
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="workId != null">
+        work_id,
+      </if>
+      <if test="umbrellaCabinetNumber != null">
+        umbrella_cabinet_number,
+      </if>
+      <if test="umbrellaCabinetCoordinate != null">
+        umbrella_cabinet_coordinate,
+      </if>
+      <if test="umbrellaTotalNum != null">
+        umbrella_total_num,
+      </if>
+      <if test="umbrellaDamagedNum != null">
+        umbrella_damaged_num,
+      </if>
+      <if test="codeState != null">
+        code_state,
+      </if>
+      <if test="borrowState != null">
+        borrow_state,
+      </if>
+      <if test="returnState != null">
+        return_state,
+      </if>
+      <if test="voiceState != null">
+        voice_state,
+      </if>
+      <if test="positionState != null">
+        position_state,
+      </if>
+      <if test="hardwareState != null">
+        hardware_state,
+      </if>
+      <if test="handleState != null">
+        handle_state,
+      </if>
+      <if test="feedbackHardwareValue != null">
+        feedback_hardware_value,
+      </if>
+      <if test="feedbackDesc != null">
+        feedback_desc,
+      </if>
+      <if test="pic != null">
+        pic,
+      </if>
+      <if test="video != null">
+        video,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="workId != null">
+        #{workId,jdbcType=BIGINT},
+      </if>
+      <if test="umbrellaCabinetNumber != null">
+        #{umbrellaCabinetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="umbrellaCabinetCoordinate != null">
+        #{umbrellaCabinetCoordinate,jdbcType=TINYINT},
+      </if>
+      <if test="umbrellaTotalNum != null">
+        #{umbrellaTotalNum,jdbcType=VARCHAR},
+      </if>
+      <if test="umbrellaDamagedNum != null">
+        #{umbrellaDamagedNum,jdbcType=VARCHAR},
+      </if>
+      <if test="codeState != null">
+        #{codeState,jdbcType=TINYINT},
+      </if>
+      <if test="borrowState != null">
+        #{borrowState,jdbcType=TINYINT},
+      </if>
+      <if test="returnState != null">
+        #{returnState,jdbcType=TINYINT},
+      </if>
+      <if test="voiceState != null">
+        #{voiceState,jdbcType=TINYINT},
+      </if>
+      <if test="positionState != null">
+        #{positionState,jdbcType=TINYINT},
+      </if>
+      <if test="hardwareState != null">
+        #{hardwareState,jdbcType=TINYINT},
+      </if>
+      <if test="handleState != null">
+        #{handleState,jdbcType=TINYINT},
+      </if>
+      <if test="feedbackHardwareValue != null">
+        #{feedbackHardwareValue,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackDesc != null">
+        #{feedbackDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null">
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null">
+        #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blibee.umbrella.pojo.HandleResultExample" resultType="java.lang.Long">
+    select count(*) from handle_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update handle_result
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.workId != null">
+        work_id = #{record.workId,jdbcType=BIGINT},
+      </if>
+      <if test="record.umbrellaCabinetNumber != null">
+        umbrella_cabinet_number = #{record.umbrellaCabinetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.umbrellaCabinetCoordinate != null">
+        umbrella_cabinet_coordinate = #{record.umbrellaCabinetCoordinate,jdbcType=TINYINT},
+      </if>
+      <if test="record.umbrellaTotalNum != null">
+        umbrella_total_num = #{record.umbrellaTotalNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.umbrellaDamagedNum != null">
+        umbrella_damaged_num = #{record.umbrellaDamagedNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.codeState != null">
+        code_state = #{record.codeState,jdbcType=TINYINT},
+      </if>
+      <if test="record.borrowState != null">
+        borrow_state = #{record.borrowState,jdbcType=TINYINT},
+      </if>
+      <if test="record.returnState != null">
+        return_state = #{record.returnState,jdbcType=TINYINT},
+      </if>
+      <if test="record.voiceState != null">
+        voice_state = #{record.voiceState,jdbcType=TINYINT},
+      </if>
+      <if test="record.positionState != null">
+        position_state = #{record.positionState,jdbcType=TINYINT},
+      </if>
+      <if test="record.hardwareState != null">
+        hardware_state = #{record.hardwareState,jdbcType=TINYINT},
+      </if>
+      <if test="record.handleState != null">
+        handle_state = #{record.handleState,jdbcType=TINYINT},
+      </if>
+      <if test="record.feedbackHardwareValue != null">
+        feedback_hardware_value = #{record.feedbackHardwareValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feedbackDesc != null">
+        feedback_desc = #{record.feedbackDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pic != null">
+        pic = #{record.pic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.video != null">
+        video = #{record.video,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update handle_result
+    set id = #{record.id,jdbcType=INTEGER},
+      work_id = #{record.workId,jdbcType=BIGINT},
+      umbrella_cabinet_number = #{record.umbrellaCabinetNumber,jdbcType=VARCHAR},
+      umbrella_cabinet_coordinate = #{record.umbrellaCabinetCoordinate,jdbcType=TINYINT},
+      umbrella_total_num = #{record.umbrellaTotalNum,jdbcType=VARCHAR},
+      umbrella_damaged_num = #{record.umbrellaDamagedNum,jdbcType=VARCHAR},
+      code_state = #{record.codeState,jdbcType=TINYINT},
+      borrow_state = #{record.borrowState,jdbcType=TINYINT},
+      return_state = #{record.returnState,jdbcType=TINYINT},
+      voice_state = #{record.voiceState,jdbcType=TINYINT},
+      position_state = #{record.positionState,jdbcType=TINYINT},
+      hardware_state = #{record.hardwareState,jdbcType=TINYINT},
+      handle_state = #{record.handleState,jdbcType=TINYINT},
+      feedback_hardware_value = #{record.feedbackHardwareValue,jdbcType=VARCHAR},
+      feedback_desc = #{record.feedbackDesc,jdbcType=VARCHAR},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      video = #{record.video,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blibee.umbrella.pojo.HandleResult">
+    update handle_result
+    <set>
+      <if test="workId != null">
+        work_id = #{workId,jdbcType=BIGINT},
+      </if>
+      <if test="umbrellaCabinetNumber != null">
+        umbrella_cabinet_number = #{umbrellaCabinetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="umbrellaCabinetCoordinate != null">
+        umbrella_cabinet_coordinate = #{umbrellaCabinetCoordinate,jdbcType=TINYINT},
+      </if>
+      <if test="umbrellaTotalNum != null">
+        umbrella_total_num = #{umbrellaTotalNum,jdbcType=VARCHAR},
+      </if>
+      <if test="umbrellaDamagedNum != null">
+        umbrella_damaged_num = #{umbrellaDamagedNum,jdbcType=VARCHAR},
+      </if>
+      <if test="codeState != null">
+        code_state = #{codeState,jdbcType=TINYINT},
+      </if>
+      <if test="borrowState != null">
+        borrow_state = #{borrowState,jdbcType=TINYINT},
+      </if>
+      <if test="returnState != null">
+        return_state = #{returnState,jdbcType=TINYINT},
+      </if>
+      <if test="voiceState != null">
+        voice_state = #{voiceState,jdbcType=TINYINT},
+      </if>
+      <if test="positionState != null">
+        position_state = #{positionState,jdbcType=TINYINT},
+      </if>
+      <if test="hardwareState != null">
+        hardware_state = #{hardwareState,jdbcType=TINYINT},
+      </if>
+      <if test="handleState != null">
+        handle_state = #{handleState,jdbcType=TINYINT},
+      </if>
+      <if test="feedbackHardwareValue != null">
+        feedback_hardware_value = #{feedbackHardwareValue,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackDesc != null">
+        feedback_desc = #{feedbackDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null">
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null">
+        video = #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blibee.umbrella.pojo.HandleResult">
+    update handle_result
+    set work_id = #{workId,jdbcType=BIGINT},
+      umbrella_cabinet_number = #{umbrellaCabinetNumber,jdbcType=VARCHAR},
+      umbrella_cabinet_coordinate = #{umbrellaCabinetCoordinate,jdbcType=TINYINT},
+      umbrella_total_num = #{umbrellaTotalNum,jdbcType=VARCHAR},
+      umbrella_damaged_num = #{umbrellaDamagedNum,jdbcType=VARCHAR},
+      code_state = #{codeState,jdbcType=TINYINT},
+      borrow_state = #{borrowState,jdbcType=TINYINT},
+      return_state = #{returnState,jdbcType=TINYINT},
+      voice_state = #{voiceState,jdbcType=TINYINT},
+      position_state = #{positionState,jdbcType=TINYINT},
+      hardware_state = #{hardwareState,jdbcType=TINYINT},
+      handle_state = #{handleState,jdbcType=TINYINT},
+      feedback_hardware_value = #{feedbackHardwareValue,jdbcType=VARCHAR},
+      feedback_desc = #{feedbackDesc,jdbcType=VARCHAR},
+      pic = #{pic,jdbcType=VARCHAR},
+      video = #{video,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.blibee.umbrella.pojo.HandleResultExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from handle_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

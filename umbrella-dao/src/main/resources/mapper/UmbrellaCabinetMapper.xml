@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blibee.umbrella.dao.UmbrellaCabinetMapper">
+  <resultMap id="BaseResultMap" type="com.blibee.umbrella.pojo.UmbrellaCabinet">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="umbrella_cabinet_number" jdbcType="VARCHAR" property="umbrellaCabinetNumber" />
+    <result column="device_id" jdbcType="VARCHAR" property="deviceId" />
+    <result column="point_id" jdbcType="INTEGER" property="pointId" />
+    <result column="msisdn" jdbcType="CHAR" property="msisdn" />
+    <result column="vbat" jdbcType="VARCHAR" property="vbat" />
+    <result column="csq" jdbcType="VARCHAR" property="csq" />
+    <result column="shop_code" jdbcType="VARCHAR" property="shopCode" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="location" jdbcType="VARCHAR" property="location" />
+    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="up_lng" jdbcType="DECIMAL" property="upLng" />
+    <result column="up_lat" jdbcType="DECIMAL" property="upLat" />
+    <result column="online_state" jdbcType="TINYINT" property="onlineState" />
+    <result column="max_cap" jdbcType="TINYINT" property="maxCap" />
+    <result column="property_cap" jdbcType="TINYINT" property="propertyCap" />
+    <result column="trans_state" jdbcType="TINYINT" property="transState" />
+    <result column="occupy_state" jdbcType="TINYINT" property="occupyState" />
+    <result column="merchant_code" jdbcType="VARCHAR" property="merchantCode" />
+    <result column="hard_ver" jdbcType="VARCHAR" property="hardVer" />
+    <result column="soft_ver" jdbcType="VARCHAR" property="softVer" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="upload_time" jdbcType="TIMESTAMP" property="uploadTime" />
+    <result column="locate_time" jdbcType="TIMESTAMP" property="locateTime" />
+    <result column="lost_record" jdbcType="INTEGER" property="lostRecord" />
+    <result column="obtain_record" jdbcType="INTEGER" property="obtainRecord" />
+    <result column="scene" jdbcType="VARCHAR" property="scene" />
+    <result column="put_date" jdbcType="TIMESTAMP" property="putDate" />
+    <result column="put_pic" jdbcType="VARCHAR" property="putPic" />
+    <result column="migrate_date" jdbcType="TIMESTAMP" property="migrateDate" />
+    <result column="position_accordance" jdbcType="TINYINT" property="positionAccordance" />
+    <result column="comment_message" jdbcType="VARCHAR" property="commentMessage" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, umbrella_cabinet_number, device_id, point_id, msisdn, vbat, csq, shop_code, shop_name, 
+    location, longitude, latitude, up_lng, up_lat, online_state, max_cap, property_cap, 
+    trans_state, occupy_state, merchant_code, hard_ver, soft_ver, city, upload_time, 
+    locate_time, lost_record, obtain_record, scene, put_date, put_pic, migrate_date, 
+    position_accordance, comment_message, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.blibee.umbrella.pojo.UmbrellaCabinetExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from umbrella_cabinet
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from umbrella_cabinet
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from umbrella_cabinet
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blibee.umbrella.pojo.UmbrellaCabinetExample">
+    delete from umbrella_cabinet
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blibee.umbrella.pojo.UmbrellaCabinet">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into umbrella_cabinet (umbrella_cabinet_number, device_id, 
+      point_id, msisdn, vbat, 
+      csq, shop_code, shop_name, 
+      location, longitude, latitude, 
+      up_lng, up_lat, online_state, 
+      max_cap, property_cap, trans_state, 
+      occupy_state, merchant_code, hard_ver, 
+      soft_ver, city, upload_time, 
+      locate_time, lost_record, obtain_record, 
+      scene, put_date, put_pic, 
+      migrate_date, position_accordance, comment_message, 
+      create_time, update_time)
+    values (#{umbrellaCabinetNumber,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, 
+      #{pointId,jdbcType=INTEGER}, #{msisdn,jdbcType=CHAR}, #{vbat,jdbcType=VARCHAR}, 
+      #{csq,jdbcType=VARCHAR}, #{shopCode,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, 
+      #{location,jdbcType=VARCHAR}, #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, 
+      #{upLng,jdbcType=DECIMAL}, #{upLat,jdbcType=DECIMAL}, #{onlineState,jdbcType=TINYINT}, 
+      #{maxCap,jdbcType=TINYINT}, #{propertyCap,jdbcType=TINYINT}, #{transState,jdbcType=TINYINT}, 
+      #{occupyState,jdbcType=TINYINT}, #{merchantCode,jdbcType=VARCHAR}, #{hardVer,jdbcType=VARCHAR}, 
+      #{softVer,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{uploadTime,jdbcType=TIMESTAMP}, 
+      #{locateTime,jdbcType=TIMESTAMP}, #{lostRecord,jdbcType=INTEGER}, #{obtainRecord,jdbcType=INTEGER}, 
+      #{scene,jdbcType=VARCHAR}, #{putDate,jdbcType=TIMESTAMP}, #{putPic,jdbcType=VARCHAR}, 
+      #{migrateDate,jdbcType=TIMESTAMP}, #{positionAccordance,jdbcType=TINYINT}, #{commentMessage,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blibee.umbrella.pojo.UmbrellaCabinet">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into umbrella_cabinet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="umbrellaCabinetNumber != null">
+        umbrella_cabinet_number,
+      </if>
+      <if test="deviceId != null">
+        device_id,
+      </if>
+      <if test="pointId != null">
+        point_id,
+      </if>
+      <if test="msisdn != null">
+        msisdn,
+      </if>
+      <if test="vbat != null">
+        vbat,
+      </if>
+      <if test="csq != null">
+        csq,
+      </if>
+      <if test="shopCode != null">
+        shop_code,
+      </if>
+      <if test="shopName != null">
+        shop_name,
+      </if>
+      <if test="location != null">
+        location,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="upLng != null">
+        up_lng,
+      </if>
+      <if test="upLat != null">
+        up_lat,
+      </if>
+      <if test="onlineState != null">
+        online_state,
+      </if>
+      <if test="maxCap != null">
+        max_cap,
+      </if>
+      <if test="propertyCap != null">
+        property_cap,
+      </if>
+      <if test="transState != null">
+        trans_state,
+      </if>
+      <if test="occupyState != null">
+        occupy_state,
+      </if>
+      <if test="merchantCode != null">
+        merchant_code,
+      </if>
+      <if test="hardVer != null">
+        hard_ver,
+      </if>
+      <if test="softVer != null">
+        soft_ver,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="uploadTime != null">
+        upload_time,
+      </if>
+      <if test="locateTime != null">
+        locate_time,
+      </if>
+      <if test="lostRecord != null">
+        lost_record,
+      </if>
+      <if test="obtainRecord != null">
+        obtain_record,
+      </if>
+      <if test="scene != null">
+        scene,
+      </if>
+      <if test="putDate != null">
+        put_date,
+      </if>
+      <if test="putPic != null">
+        put_pic,
+      </if>
+      <if test="migrateDate != null">
+        migrate_date,
+      </if>
+      <if test="positionAccordance != null">
+        position_accordance,
+      </if>
+      <if test="commentMessage != null">
+        comment_message,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="umbrellaCabinetNumber != null">
+        #{umbrellaCabinetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="pointId != null">
+        #{pointId,jdbcType=INTEGER},
+      </if>
+      <if test="msisdn != null">
+        #{msisdn,jdbcType=CHAR},
+      </if>
+      <if test="vbat != null">
+        #{vbat,jdbcType=VARCHAR},
+      </if>
+      <if test="csq != null">
+        #{csq,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCode != null">
+        #{shopCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null">
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="upLng != null">
+        #{upLng,jdbcType=DECIMAL},
+      </if>
+      <if test="upLat != null">
+        #{upLat,jdbcType=DECIMAL},
+      </if>
+      <if test="onlineState != null">
+        #{onlineState,jdbcType=TINYINT},
+      </if>
+      <if test="maxCap != null">
+        #{maxCap,jdbcType=TINYINT},
+      </if>
+      <if test="propertyCap != null">
+        #{propertyCap,jdbcType=TINYINT},
+      </if>
+      <if test="transState != null">
+        #{transState,jdbcType=TINYINT},
+      </if>
+      <if test="occupyState != null">
+        #{occupyState,jdbcType=TINYINT},
+      </if>
+      <if test="merchantCode != null">
+        #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hardVer != null">
+        #{hardVer,jdbcType=VARCHAR},
+      </if>
+      <if test="softVer != null">
+        #{softVer,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadTime != null">
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="locateTime != null">
+        #{locateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lostRecord != null">
+        #{lostRecord,jdbcType=INTEGER},
+      </if>
+      <if test="obtainRecord != null">
+        #{obtainRecord,jdbcType=INTEGER},
+      </if>
+      <if test="scene != null">
+        #{scene,jdbcType=VARCHAR},
+      </if>
+      <if test="putDate != null">
+        #{putDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="putPic != null">
+        #{putPic,jdbcType=VARCHAR},
+      </if>
+      <if test="migrateDate != null">
+        #{migrateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="positionAccordance != null">
+        #{positionAccordance,jdbcType=TINYINT},
+      </if>
+      <if test="commentMessage != null">
+        #{commentMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blibee.umbrella.pojo.UmbrellaCabinetExample" resultType="java.lang.Long">
+    select count(*) from umbrella_cabinet
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update umbrella_cabinet
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.umbrellaCabinetNumber != null">
+        umbrella_cabinet_number = #{record.umbrellaCabinetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceId != null">
+        device_id = #{record.deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pointId != null">
+        point_id = #{record.pointId,jdbcType=INTEGER},
+      </if>
+      <if test="record.msisdn != null">
+        msisdn = #{record.msisdn,jdbcType=CHAR},
+      </if>
+      <if test="record.vbat != null">
+        vbat = #{record.vbat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csq != null">
+        csq = #{record.csq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopCode != null">
+        shop_code = #{record.shopCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopName != null">
+        shop_name = #{record.shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.location != null">
+        location = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null">
+        longitude = #{record.longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.upLng != null">
+        up_lng = #{record.upLng,jdbcType=DECIMAL},
+      </if>
+      <if test="record.upLat != null">
+        up_lat = #{record.upLat,jdbcType=DECIMAL},
+      </if>
+      <if test="record.onlineState != null">
+        online_state = #{record.onlineState,jdbcType=TINYINT},
+      </if>
+      <if test="record.maxCap != null">
+        max_cap = #{record.maxCap,jdbcType=TINYINT},
+      </if>
+      <if test="record.propertyCap != null">
+        property_cap = #{record.propertyCap,jdbcType=TINYINT},
+      </if>
+      <if test="record.transState != null">
+        trans_state = #{record.transState,jdbcType=TINYINT},
+      </if>
+      <if test="record.occupyState != null">
+        occupy_state = #{record.occupyState,jdbcType=TINYINT},
+      </if>
+      <if test="record.merchantCode != null">
+        merchant_code = #{record.merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hardVer != null">
+        hard_ver = #{record.hardVer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.softVer != null">
+        soft_ver = #{record.softVer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uploadTime != null">
+        upload_time = #{record.uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.locateTime != null">
+        locate_time = #{record.locateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lostRecord != null">
+        lost_record = #{record.lostRecord,jdbcType=INTEGER},
+      </if>
+      <if test="record.obtainRecord != null">
+        obtain_record = #{record.obtainRecord,jdbcType=INTEGER},
+      </if>
+      <if test="record.scene != null">
+        scene = #{record.scene,jdbcType=VARCHAR},
+      </if>
+      <if test="record.putDate != null">
+        put_date = #{record.putDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.putPic != null">
+        put_pic = #{record.putPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.migrateDate != null">
+        migrate_date = #{record.migrateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.positionAccordance != null">
+        position_accordance = #{record.positionAccordance,jdbcType=TINYINT},
+      </if>
+      <if test="record.commentMessage != null">
+        comment_message = #{record.commentMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update umbrella_cabinet
+    set id = #{record.id,jdbcType=INTEGER},
+      umbrella_cabinet_number = #{record.umbrellaCabinetNumber,jdbcType=VARCHAR},
+      device_id = #{record.deviceId,jdbcType=VARCHAR},
+      point_id = #{record.pointId,jdbcType=INTEGER},
+      msisdn = #{record.msisdn,jdbcType=CHAR},
+      vbat = #{record.vbat,jdbcType=VARCHAR},
+      csq = #{record.csq,jdbcType=VARCHAR},
+      shop_code = #{record.shopCode,jdbcType=VARCHAR},
+      shop_name = #{record.shopName,jdbcType=VARCHAR},
+      location = #{record.location,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=DECIMAL},
+      latitude = #{record.latitude,jdbcType=DECIMAL},
+      up_lng = #{record.upLng,jdbcType=DECIMAL},
+      up_lat = #{record.upLat,jdbcType=DECIMAL},
+      online_state = #{record.onlineState,jdbcType=TINYINT},
+      max_cap = #{record.maxCap,jdbcType=TINYINT},
+      property_cap = #{record.propertyCap,jdbcType=TINYINT},
+      trans_state = #{record.transState,jdbcType=TINYINT},
+      occupy_state = #{record.occupyState,jdbcType=TINYINT},
+      merchant_code = #{record.merchantCode,jdbcType=VARCHAR},
+      hard_ver = #{record.hardVer,jdbcType=VARCHAR},
+      soft_ver = #{record.softVer,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      upload_time = #{record.uploadTime,jdbcType=TIMESTAMP},
+      locate_time = #{record.locateTime,jdbcType=TIMESTAMP},
+      lost_record = #{record.lostRecord,jdbcType=INTEGER},
+      obtain_record = #{record.obtainRecord,jdbcType=INTEGER},
+      scene = #{record.scene,jdbcType=VARCHAR},
+      put_date = #{record.putDate,jdbcType=TIMESTAMP},
+      put_pic = #{record.putPic,jdbcType=VARCHAR},
+      migrate_date = #{record.migrateDate,jdbcType=TIMESTAMP},
+      position_accordance = #{record.positionAccordance,jdbcType=TINYINT},
+      comment_message = #{record.commentMessage,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blibee.umbrella.pojo.UmbrellaCabinet">
+    update umbrella_cabinet
+    <set>
+      <if test="umbrellaCabinetNumber != null">
+        umbrella_cabinet_number = #{umbrellaCabinetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null">
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="pointId != null">
+        point_id = #{pointId,jdbcType=INTEGER},
+      </if>
+      <if test="msisdn != null">
+        msisdn = #{msisdn,jdbcType=CHAR},
+      </if>
+      <if test="vbat != null">
+        vbat = #{vbat,jdbcType=VARCHAR},
+      </if>
+      <if test="csq != null">
+        csq = #{csq,jdbcType=VARCHAR},
+      </if>
+      <if test="shopCode != null">
+        shop_code = #{shopCode,jdbcType=VARCHAR},
+      </if>
+      <if test="shopName != null">
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null">
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="upLng != null">
+        up_lng = #{upLng,jdbcType=DECIMAL},
+      </if>
+      <if test="upLat != null">
+        up_lat = #{upLat,jdbcType=DECIMAL},
+      </if>
+      <if test="onlineState != null">
+        online_state = #{onlineState,jdbcType=TINYINT},
+      </if>
+      <if test="maxCap != null">
+        max_cap = #{maxCap,jdbcType=TINYINT},
+      </if>
+      <if test="propertyCap != null">
+        property_cap = #{propertyCap,jdbcType=TINYINT},
+      </if>
+      <if test="transState != null">
+        trans_state = #{transState,jdbcType=TINYINT},
+      </if>
+      <if test="occupyState != null">
+        occupy_state = #{occupyState,jdbcType=TINYINT},
+      </if>
+      <if test="merchantCode != null">
+        merchant_code = #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hardVer != null">
+        hard_ver = #{hardVer,jdbcType=VARCHAR},
+      </if>
+      <if test="softVer != null">
+        soft_ver = #{softVer,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadTime != null">
+        upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="locateTime != null">
+        locate_time = #{locateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lostRecord != null">
+        lost_record = #{lostRecord,jdbcType=INTEGER},
+      </if>
+      <if test="obtainRecord != null">
+        obtain_record = #{obtainRecord,jdbcType=INTEGER},
+      </if>
+      <if test="scene != null">
+        scene = #{scene,jdbcType=VARCHAR},
+      </if>
+      <if test="putDate != null">
+        put_date = #{putDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="putPic != null">
+        put_pic = #{putPic,jdbcType=VARCHAR},
+      </if>
+      <if test="migrateDate != null">
+        migrate_date = #{migrateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="positionAccordance != null">
+        position_accordance = #{positionAccordance,jdbcType=TINYINT},
+      </if>
+      <if test="commentMessage != null">
+        comment_message = #{commentMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blibee.umbrella.pojo.UmbrellaCabinet">
+    update umbrella_cabinet
+    set umbrella_cabinet_number = #{umbrellaCabinetNumber,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      point_id = #{pointId,jdbcType=INTEGER},
+      msisdn = #{msisdn,jdbcType=CHAR},
+      vbat = #{vbat,jdbcType=VARCHAR},
+      csq = #{csq,jdbcType=VARCHAR},
+      shop_code = #{shopCode,jdbcType=VARCHAR},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      up_lng = #{upLng,jdbcType=DECIMAL},
+      up_lat = #{upLat,jdbcType=DECIMAL},
+      online_state = #{onlineState,jdbcType=TINYINT},
+      max_cap = #{maxCap,jdbcType=TINYINT},
+      property_cap = #{propertyCap,jdbcType=TINYINT},
+      trans_state = #{transState,jdbcType=TINYINT},
+      occupy_state = #{occupyState,jdbcType=TINYINT},
+      merchant_code = #{merchantCode,jdbcType=VARCHAR},
+      hard_ver = #{hardVer,jdbcType=VARCHAR},
+      soft_ver = #{softVer,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      upload_time = #{uploadTime,jdbcType=TIMESTAMP},
+      locate_time = #{locateTime,jdbcType=TIMESTAMP},
+      lost_record = #{lostRecord,jdbcType=INTEGER},
+      obtain_record = #{obtainRecord,jdbcType=INTEGER},
+      scene = #{scene,jdbcType=VARCHAR},
+      put_date = #{putDate,jdbcType=TIMESTAMP},
+      put_pic = #{putPic,jdbcType=VARCHAR},
+      migrate_date = #{migrateDate,jdbcType=TIMESTAMP},
+      position_accordance = #{positionAccordance,jdbcType=TINYINT},
+      comment_message = #{commentMessage,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.blibee.umbrella.pojo.UmbrellaCabinetExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from umbrella_cabinet
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

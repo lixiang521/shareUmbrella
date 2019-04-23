@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blibee.umbrella.dao.UmbrellaMapper">
+  <resultMap id="BaseResultMap" type="com.blibee.umbrella.pojo.Umbrella">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="umbrella_number" jdbcType="VARCHAR" property="umbrellaNumber" />
+    <result column="umbrella_cabinet_number" jdbcType="VARCHAR" property="umbrellaCabinetNumber" />
+    <result column="trans_state" jdbcType="TINYINT" property="transState" />
+    <result column="repair_state" jdbcType="TINYINT" property="repairState" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="hard_ver" jdbcType="VARCHAR" property="hardVer" />
+    <result column="soft_ver" jdbcType="VARCHAR" property="softVer" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, umbrella_number, umbrella_cabinet_number, trans_state, repair_state, create_time, 
+    update_time, hard_ver, soft_ver
+  </sql>
+  <select id="selectByExample" parameterType="com.blibee.umbrella.pojo.UmbrellaExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from umbrella
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from umbrella
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from umbrella
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blibee.umbrella.pojo.UmbrellaExample">
+    delete from umbrella
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blibee.umbrella.pojo.Umbrella">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into umbrella (umbrella_number, umbrella_cabinet_number, 
+      trans_state, repair_state, create_time, 
+      update_time, hard_ver, soft_ver
+      )
+    values (#{umbrellaNumber,jdbcType=VARCHAR}, #{umbrellaCabinetNumber,jdbcType=VARCHAR}, 
+      #{transState,jdbcType=TINYINT}, #{repairState,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{hardVer,jdbcType=VARCHAR}, #{softVer,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.blibee.umbrella.pojo.Umbrella">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into umbrella
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="umbrellaNumber != null">
+        umbrella_number,
+      </if>
+      <if test="umbrellaCabinetNumber != null">
+        umbrella_cabinet_number,
+      </if>
+      <if test="transState != null">
+        trans_state,
+      </if>
+      <if test="repairState != null">
+        repair_state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="hardVer != null">
+        hard_ver,
+      </if>
+      <if test="softVer != null">
+        soft_ver,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="umbrellaNumber != null">
+        #{umbrellaNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="umbrellaCabinetNumber != null">
+        #{umbrellaCabinetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="transState != null">
+        #{transState,jdbcType=TINYINT},
+      </if>
+      <if test="repairState != null">
+        #{repairState,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hardVer != null">
+        #{hardVer,jdbcType=VARCHAR},
+      </if>
+      <if test="softVer != null">
+        #{softVer,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blibee.umbrella.pojo.UmbrellaExample" resultType="java.lang.Long">
+    select count(*) from umbrella
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update umbrella
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.umbrellaNumber != null">
+        umbrella_number = #{record.umbrellaNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.umbrellaCabinetNumber != null">
+        umbrella_cabinet_number = #{record.umbrellaCabinetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transState != null">
+        trans_state = #{record.transState,jdbcType=TINYINT},
+      </if>
+      <if test="record.repairState != null">
+        repair_state = #{record.repairState,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.hardVer != null">
+        hard_ver = #{record.hardVer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.softVer != null">
+        soft_ver = #{record.softVer,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update umbrella
+    set id = #{record.id,jdbcType=INTEGER},
+      umbrella_number = #{record.umbrellaNumber,jdbcType=VARCHAR},
+      umbrella_cabinet_number = #{record.umbrellaCabinetNumber,jdbcType=VARCHAR},
+      trans_state = #{record.transState,jdbcType=TINYINT},
+      repair_state = #{record.repairState,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      hard_ver = #{record.hardVer,jdbcType=VARCHAR},
+      soft_ver = #{record.softVer,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blibee.umbrella.pojo.Umbrella">
+    update umbrella
+    <set>
+      <if test="umbrellaNumber != null">
+        umbrella_number = #{umbrellaNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="umbrellaCabinetNumber != null">
+        umbrella_cabinet_number = #{umbrellaCabinetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="transState != null">
+        trans_state = #{transState,jdbcType=TINYINT},
+      </if>
+      <if test="repairState != null">
+        repair_state = #{repairState,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hardVer != null">
+        hard_ver = #{hardVer,jdbcType=VARCHAR},
+      </if>
+      <if test="softVer != null">
+        soft_ver = #{softVer,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blibee.umbrella.pojo.Umbrella">
+    update umbrella
+    set umbrella_number = #{umbrellaNumber,jdbcType=VARCHAR},
+      umbrella_cabinet_number = #{umbrellaCabinetNumber,jdbcType=VARCHAR},
+      trans_state = #{transState,jdbcType=TINYINT},
+      repair_state = #{repairState,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      hard_ver = #{hardVer,jdbcType=VARCHAR},
+      soft_ver = #{softVer,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.blibee.umbrella.pojo.UmbrellaExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from umbrella
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
