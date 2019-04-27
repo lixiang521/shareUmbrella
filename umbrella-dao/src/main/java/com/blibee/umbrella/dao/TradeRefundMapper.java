@@ -1,7 +1,7 @@
 package com.blibee.umbrella.dao;
 
-import com.blibee.umbrella.pojo.TradeRefund;
-import com.blibee.umbrella.pojo.TradeRefundExample;
+import com.blibee.umbrella.model.pojo.TradeRefund;
+import com.blibee.umbrella.model.pojo.TradeRefundExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;

@@ -1,8 +1,8 @@
 package com.blibee.umbrella.dao;
 
-import com.blibee.umbrella.pojo.OrderSnapshot;
-import com.blibee.umbrella.pojo.OrderSnapshotExample;
-import com.blibee.umbrella.pojo.OrderSnapshotWithBLOBs;
+import com.blibee.umbrella.model.pojo.OrderSnapshot;
+import com.blibee.umbrella.model.pojo.OrderSnapshotExample;
+import com.blibee.umbrella.model.pojo.OrderSnapshotWithBLOBs;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;

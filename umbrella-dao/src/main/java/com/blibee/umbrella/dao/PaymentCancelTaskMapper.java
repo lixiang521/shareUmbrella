@@ -1,7 +1,7 @@
 package com.blibee.umbrella.dao;
 
-import com.blibee.umbrella.pojo.PaymentCancelTask;
-import com.blibee.umbrella.pojo.PaymentCancelTaskExample;
+import com.blibee.umbrella.model.pojo.PaymentCancelTask;
+import com.blibee.umbrella.model.pojo.PaymentCancelTaskExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;

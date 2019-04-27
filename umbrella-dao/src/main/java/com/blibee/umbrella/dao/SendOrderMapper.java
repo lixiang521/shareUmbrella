@@ -1,7 +1,7 @@
 package com.blibee.umbrella.dao;
 
-import com.blibee.umbrella.pojo.SendOrder;
-import com.blibee.umbrella.pojo.SendOrderExample;
+import com.blibee.umbrella.model.pojo.SendOrder;
+import com.blibee.umbrella.model.pojo.SendOrderExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;

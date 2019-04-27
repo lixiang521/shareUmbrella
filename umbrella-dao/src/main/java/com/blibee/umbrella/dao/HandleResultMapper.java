@@ -1,7 +1,7 @@
 package com.blibee.umbrella.dao;
 
-import com.blibee.umbrella.pojo.HandleResult;
-import com.blibee.umbrella.pojo.HandleResultExample;
+import com.blibee.umbrella.model.pojo.HandleResult;
+import com.blibee.umbrella.model.pojo.HandleResultExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;

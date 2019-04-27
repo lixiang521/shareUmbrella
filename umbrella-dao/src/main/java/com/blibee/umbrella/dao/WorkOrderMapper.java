@@ -1,7 +1,7 @@
 package com.blibee.umbrella.dao;
 
-import com.blibee.umbrella.pojo.WorkOrder;
-import com.blibee.umbrella.pojo.WorkOrderExample;
+import com.blibee.umbrella.model.pojo.WorkOrder;
+import com.blibee.umbrella.model.pojo.WorkOrderExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;

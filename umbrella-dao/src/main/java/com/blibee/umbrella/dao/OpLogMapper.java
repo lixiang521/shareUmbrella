@@ -1,7 +1,7 @@
 package com.blibee.umbrella.dao;
 
-import com.blibee.umbrella.pojo.OpLog;
-import com.blibee.umbrella.pojo.OpLogExample;
+import com.blibee.umbrella.model.pojo.OpLog;
+import com.blibee.umbrella.model.pojo.OpLogExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;

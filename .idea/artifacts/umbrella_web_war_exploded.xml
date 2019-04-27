@@ -42,9 +42,12 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.7.3" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.7.3" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.7.3" />
+          <element id="library" level="project" name="Maven: com.thetransactioncompany:cors-filter:2.5" />
+          <element id="library" level="project" name="Maven: com.thetransactioncompany:java-property-utils:1.9.1" />
           <element id="archive" name="umbrella-service-1.0-SNAPSHOT.jar">
             <element id="module-output" name="umbrella-service" />
           </element>
+          <element id="library" level="project" name="Maven: org.projectlombok:lombok:unknown" />
         </element>
       </element>
       <element id="directory" name="META-INF">

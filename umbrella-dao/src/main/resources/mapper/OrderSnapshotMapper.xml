@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blibee.umbrella.dao.OrderSnapshotMapper">
-  <resultMap id="BaseResultMap" type="com.blibee.umbrella.pojo.OrderSnapshot">
+  <resultMap id="BaseResultMap" type="com.blibee.umbrella.model.pojo.OrderSnapshot">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="lease_number" jdbcType="BIGINT" property="leaseNumber" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.blibee.umbrella.pojo.OrderSnapshotWithBLOBs">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.blibee.umbrella.model.pojo.OrderSnapshotWithBLOBs">
     <result column="lend_content" jdbcType="LONGVARCHAR" property="lendContent" />
     <result column="return_content" jdbcType="LONGVARCHAR" property="returnContent" />
   </resultMap>
@@ -75,7 +75,7 @@
   <sql id="Blob_Column_List">
     lend_content, return_content
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.blibee.umbrella.pojo.OrderSnapshotExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshotExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -91,7 +91,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.blibee.umbrella.pojo.OrderSnapshotExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshotExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -117,13 +117,13 @@
     delete from order_snapshot
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.blibee.umbrella.pojo.OrderSnapshotExample">
+  <delete id="deleteByExample" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshotExample">
     delete from order_snapshot
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.blibee.umbrella.pojo.OrderSnapshotWithBLOBs">
+  <insert id="insert" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshotWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -132,7 +132,7 @@
     values (#{leaseNumber,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{lendContent,jdbcType=LONGVARCHAR}, #{returnContent,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.blibee.umbrella.pojo.OrderSnapshotWithBLOBs">
+  <insert id="insertSelective" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshotWithBLOBs">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -172,7 +172,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.blibee.umbrella.pojo.OrderSnapshotExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshotExample" resultType="java.lang.Long">
     select count(*) from order_snapshot
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -226,7 +226,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.blibee.umbrella.pojo.OrderSnapshotWithBLOBs">
+  <update id="updateByPrimaryKeySelective" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshotWithBLOBs">
     update order_snapshot
     <set>
       <if test="leaseNumber != null">
@@ -247,7 +247,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.blibee.umbrella.pojo.OrderSnapshotWithBLOBs">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshotWithBLOBs">
     update order_snapshot
     set lease_number = #{leaseNumber,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -256,14 +256,14 @@
       return_content = #{returnContent,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.blibee.umbrella.pojo.OrderSnapshot">
+  <update id="updateByPrimaryKey" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshot">
     update order_snapshot
     set lease_number = #{leaseNumber,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.blibee.umbrella.pojo.OrderSnapshotExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshotExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -279,7 +279,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExampleWithRowbounds" parameterType="com.blibee.umbrella.pojo.OrderSnapshotExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="com.blibee.umbrella.model.pojo.OrderSnapshotExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct

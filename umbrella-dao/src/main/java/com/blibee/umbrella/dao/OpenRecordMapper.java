@@ -1,7 +1,7 @@
 package com.blibee.umbrella.dao;
 
-import com.blibee.umbrella.pojo.OpenRecord;
-import com.blibee.umbrella.pojo.OpenRecordExample;
+import com.blibee.umbrella.model.pojo.OpenRecord;
+import com.blibee.umbrella.model.pojo.OpenRecordExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
