@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="umbrella-common" />
         <module name="umbrella-dao" />
         <module name="umbrella-service" />
         <module name="umbrella-web" />
@@ -14,7 +15,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="umbrella-api" target="1.8" />
-      <module name="umbrella-common" target="1.8" />
       <module name="umbrella-es" target="1.8" />
       <module name="umbrella-link" target="1.8" />
       <module name="umbrella-opweb" target="1.8" />

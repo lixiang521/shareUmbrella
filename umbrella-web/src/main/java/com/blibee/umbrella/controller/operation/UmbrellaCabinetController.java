@@ -1,11 +1,7 @@
 package com.blibee.umbrella.controller.operation;
 
-import com.blibee.umbrella.model.JsonResult;
-import com.blibee.umbrella.model.pojo.LeaseRecord;
-import com.blibee.umbrella.model.pojo.Umbrella;
-import com.blibee.umbrella.model.pojo.UmbrellaCabinet;
+import com.blibee.umbrella.model.constants.JsonResult;
 import com.blibee.umbrella.model.ro.OperationUmbrellaCabinetAddReq;
-import com.blibee.umbrella.service.LeaseRecordService;
 import com.blibee.umbrella.service.UmbrellaCabinetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,19 +9,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
+/**
+ * Created by lixiang on 2019/04/27.
+ */
 @Controller
-@RequestMapping("/umbrellaCabinet")
+@RequestMapping("/umbrella/cabinet")
 @ResponseBody
 public class UmbrellaCabinetController {
     @Autowired
     private UmbrellaCabinetService umbrellaCabinetService;
-    @RequestMapping("/add")
-    public JsonResult add(@RequestBody OperationUmbrellaCabinetAddReq req){
-        UmbrellaCabinet umbrellaCabinet = new UmbrellaCabinet();
 
-        umbrellaCabinetService.add(umbrellaCabinet);
+    /**
+     * 新增伞柜
+     *
+     * @param req
+     * @return
+     */
+    @RequestMapping("/add")
+    public JsonResult add(@RequestBody OperationUmbrellaCabinetAddReq req) {
+        umbrellaCabinetService.add(req);
         return JsonResult.success(null);
     }
+
+    /**
+     * 查询列表，分页
+     *
+     * @param req
+     * @return
+     */
+//    @RequestMapping("/list/v1")
+//    public JsonCabinetEsResp list(@RequestBody OperationUmbrellaCabinetPageReq req) {
+//        return umbrellaCabinetService.queryList(req);
+//    }
+
 }

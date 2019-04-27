@@ -1,18 +1,17 @@
-package com.blibee.umbrella.model;
+package com.blibee.umbrella.api.pojo;
 
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.blibee.umbrella.common.exception.StatusCodeException;
 
 import org.springframework.util.Assert;
 
 /**
- * Biz状态码。
- *
- * @author Daniel Li
- * @since 25 May 2017
+ * BIZ状态码
+ * Created by lixiang on 2019/04/27.
  */
 public class Status implements Serializable, Comparable<Status> {
 

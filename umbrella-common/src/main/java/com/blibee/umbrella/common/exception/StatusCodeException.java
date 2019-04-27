@@ -1,13 +1,12 @@
-package com.blibee.umbrella.model;
+package com.blibee.umbrella.common.exception;
 
+import com.blibee.umbrella.api.pojo.Status;
 
 import org.springframework.util.Assert;
 
 /**
- * 状态码异常。
- *
- * @author Daniel Li
- * @since 25 May 2017
+ * 状态码异常
+ * Created by lixiang on 2019/04/27.
  */
 public class StatusCodeException extends RuntimeException {
 

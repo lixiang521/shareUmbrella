@@ -1,4 +1,4 @@
-package com.blibee.umbrella.model;
+package com.blibee.umbrella.model.constants;
 
 import java.io.Serializable;
 
@@ -8,9 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * JSON返回结果。
- *
- * @author Daniel Li
- * @since 20 August 2016
+ * Created by lixiang on 2019/04/27.
  */
 public class JsonResult<T> implements Serializable {
     private static final long serialVersionUID = -8963262177114836103L;

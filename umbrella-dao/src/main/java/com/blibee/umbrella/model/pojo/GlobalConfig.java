@@ -9,6 +9,8 @@ public class GlobalConfig {
 
     private String context;
 
+    private String note;
+
     private Date createdTime;
 
     private Date updatedTime;
@@ -35,6 +37,14 @@ public class GlobalConfig {
 
     public void setContext(String context) {
         this.context = context == null ? null : context.trim();
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note == null ? null : note.trim();
     }
 
     public Date getCreatedTime() {

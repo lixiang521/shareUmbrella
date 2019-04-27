@@ -11,6 +11,12 @@
 
     <artifactId>umbrella-dao</artifactId>
     <packaging>jar</packaging>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.blibee</groupId>
+            <artifactId>umbrella-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>
