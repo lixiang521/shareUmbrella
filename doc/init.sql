@@ -126,7 +126,7 @@ CREATE TABLE `lease_record`  (
   `lease_node` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '节点状态',
   `trans_state` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '流转状态：1-未注册，2-待验证，3-待上线，4-已上线，5-待维修, 6-维修中, 7-报废, 8-已丢失',
   `lease_resource` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'worm' COMMENT '租赁来源，worm表示便利蜂app，wechat表示微信，opApp表示运营app，alipay表示支付宝',
-  `entrance` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'blibee_umbrella' COMMENT '租赁入口，blibee_main表示便利蜂app主扫码，blibee_umbrella表示便利蜂app雨伞部分，wechat_scan表示微信主扫码，wechat_umbrella表示微信小程序雨伞部分，op_app表示运营app，alipay表示支付宝',
+  `entrance` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'pro_umbrella' COMMENT '租赁入口，pro_main表示便利蜂app主扫码，pro_umbrella表示便利蜂app雨伞部分，wechat_scan表示微信主扫码，wechat_umbrella表示微信小程序雨伞部分，op_app表示运营app，alipay表示支付宝',
   `user_resource` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '人员所属，0表示一般用户，1表示公司内部人员(包括未来购,虫极,便利蜂)，2表示外聘人员，3表示其他合作公司人员',
   `start_city` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '借出城市',
   `end_city` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '还入城市',
@@ -172,7 +172,7 @@ CREATE TABLE `open_record`  (
   `result` tinyint(4) NOT NULL DEFAULT 0 COMMENT '结果 0失败，1成功',
   `msg` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '结果信息',
   `create_time` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `entrance` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'blibee_umbrella' COMMENT '扫码入口，blibee_main表示便利蜂app主扫码，blibee_umbrella表示便利蜂app雨伞部分，wechat_scan表示微信主扫码，wechat_umbrella表示微信小程序雨伞部分，op_app表示运营app，alipay表示支付宝',
+  `entrance` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'pro_umbrella' COMMENT '扫码入口，pro_main表示便利蜂app主扫码，pro_umbrella表示便利蜂app雨伞部分，wechat_scan表示微信主扫码，wechat_umbrella表示微信小程序雨伞部分，op_app表示运营app，alipay表示支付宝',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_create_time`(`create_time`) USING BTREE,
   INDEX `idx_cabinet_lend_number`(`cabinet_lend_number`) USING BTREE

@@ -1,9 +1,9 @@
 package controller;
 
-import com.blibee.umbrella.api.json.JsonUtil;
-import com.blibee.umbrella.model.constants.TransferState;
-import com.blibee.umbrella.model.ro.OperationUmbrellaCabinetAddReq;
-import com.blibee.umbrella.service.UmbrellaCabinetService;
+import com.pro.umbrella.api.json.JsonUtil;
+import com.pro.umbrella.model.constants.TransferState;
+import com.pro.umbrella.model.ro.OperationUmbrellaCabinetAddReq;
+import com.pro.umbrella.service.UmbrellaCabinetService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

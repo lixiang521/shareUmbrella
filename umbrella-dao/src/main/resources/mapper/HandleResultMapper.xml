@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.blibee.umbrella.dao.HandleResultMapper">
-  <resultMap id="BaseResultMap" type="com.blibee.umbrella.model.pojo.HandleResult">
+<mapper namespace="com.pro.umbrella.dao.HandleResultMapper">
+  <resultMap id="BaseResultMap" type="com.pro.umbrella.model.pojo.HandleResult">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="work_id" jdbcType="BIGINT" property="workId" />
     <result column="umbrella_cabinet_number" jdbcType="VARCHAR" property="umbrellaCabinetNumber" />
@@ -87,7 +87,7 @@
     hardware_state, handle_state, feedback_hardware_value, feedback_desc, pic, video, 
     create_user, create_time, update_time
   </sql>
-  <select id="selectByExample" parameterType="com.blibee.umbrella.model.pojo.HandleResultExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pro.umbrella.model.pojo.HandleResultExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -111,13 +111,13 @@
     delete from handle_result
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.blibee.umbrella.model.pojo.HandleResultExample">
+  <delete id="deleteByExample" parameterType="com.pro.umbrella.model.pojo.HandleResultExample">
     delete from handle_result
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.blibee.umbrella.model.pojo.HandleResult">
+  <insert id="insert" parameterType="com.pro.umbrella.model.pojo.HandleResult">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -136,7 +136,7 @@
       #{video,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.blibee.umbrella.model.pojo.HandleResult">
+  <insert id="insertSelective" parameterType="com.pro.umbrella.model.pojo.HandleResult">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -260,7 +260,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.blibee.umbrella.model.pojo.HandleResultExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.pro.umbrella.model.pojo.HandleResultExample" resultType="java.lang.Long">
     select count(*) from handle_result
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -360,7 +360,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.blibee.umbrella.model.pojo.HandleResult">
+  <update id="updateByPrimaryKeySelective" parameterType="com.pro.umbrella.model.pojo.HandleResult">
     update handle_result
     <set>
       <if test="workId != null">
@@ -423,7 +423,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.blibee.umbrella.model.pojo.HandleResult">
+  <update id="updateByPrimaryKey" parameterType="com.pro.umbrella.model.pojo.HandleResult">
     update handle_result
     set work_id = #{workId,jdbcType=BIGINT},
       umbrella_cabinet_number = #{umbrellaCabinetNumber,jdbcType=VARCHAR},
@@ -446,7 +446,7 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="com.blibee.umbrella.model.pojo.HandleResultExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="com.pro.umbrella.model.pojo.HandleResultExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct

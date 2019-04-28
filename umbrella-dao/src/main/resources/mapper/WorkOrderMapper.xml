@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.blibee.umbrella.dao.WorkOrderMapper">
-  <resultMap id="BaseResultMap" type="com.blibee.umbrella.model.pojo.WorkOrder">
+<mapper namespace="com.pro.umbrella.dao.WorkOrderMapper">
+  <resultMap id="BaseResultMap" type="com.pro.umbrella.model.pojo.WorkOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="work_id" jdbcType="BIGINT" property="workId" />
     <result column="umbrella_cabinet_number" jdbcType="VARCHAR" property="umbrellaCabinetNumber" />
@@ -88,7 +88,7 @@
     city, state, detail_state, review_time, valid_state, sync_state, comment_message, 
     create_time, update_time
   </sql>
-  <select id="selectByExample" parameterType="com.blibee.umbrella.model.pojo.WorkOrderExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pro.umbrella.model.pojo.WorkOrderExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -112,13 +112,13 @@
     delete from work_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.blibee.umbrella.model.pojo.WorkOrderExample">
+  <delete id="deleteByExample" parameterType="com.pro.umbrella.model.pojo.WorkOrderExample">
     delete from work_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.blibee.umbrella.model.pojo.WorkOrder">
+  <insert id="insert" parameterType="com.pro.umbrella.model.pojo.WorkOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -137,7 +137,7 @@
       #{validState,jdbcType=TINYINT}, #{syncState,jdbcType=TINYINT}, #{commentMessage,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.blibee.umbrella.model.pojo.WorkOrder">
+  <insert id="insertSelective" parameterType="com.pro.umbrella.model.pojo.WorkOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -267,7 +267,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.blibee.umbrella.model.pojo.WorkOrderExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.pro.umbrella.model.pojo.WorkOrderExample" resultType="java.lang.Long">
     select count(*) from work_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -371,7 +371,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.blibee.umbrella.model.pojo.WorkOrder">
+  <update id="updateByPrimaryKeySelective" parameterType="com.pro.umbrella.model.pojo.WorkOrder">
     update work_order
     <set>
       <if test="workId != null">
@@ -437,7 +437,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.blibee.umbrella.model.pojo.WorkOrder">
+  <update id="updateByPrimaryKey" parameterType="com.pro.umbrella.model.pojo.WorkOrder">
     update work_order
     set work_id = #{workId,jdbcType=BIGINT},
       umbrella_cabinet_number = #{umbrellaCabinetNumber,jdbcType=VARCHAR},
@@ -461,7 +461,7 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="com.blibee.umbrella.model.pojo.WorkOrderExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="com.pro.umbrella.model.pojo.WorkOrderExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct

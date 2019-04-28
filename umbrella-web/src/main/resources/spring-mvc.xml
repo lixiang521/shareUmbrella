@@ -10,7 +10,7 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
     <!--扫描web包应用Spring注解-->
-    <context:component-scan base-package="com.blibee.umbrella.controller"/>
+    <context:component-scan base-package="com.pro.umbrella.controller"/>
     <!--启动注解-->
     <mvc:annotation-driven/>
     <!--Spring3.1开始的注解 HandlerMapping --> <!--3.1之后必须存在， 不解-->

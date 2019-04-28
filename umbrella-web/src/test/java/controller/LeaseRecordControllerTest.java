@@ -1,6 +1,6 @@
 package controller;
 
-import com.blibee.umbrella.service.LeaseRecordService;
+import com.pro.umbrella.service.LeaseRecordService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -13,13 +13,13 @@
        http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd">
-    <context:component-scan base-package="com.blibee.umbrella.service"/>
+    <context:component-scan base-package="com.pro.umbrella.service"/>
     <!-- dbcp数据源 -->
     <!-- 配置数据源 -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close"
           p:driverClassName="com.mysql.jdbc.Driver"
-          p:url="jdbc:mysql://localhost:3306/umbrella"
+          p:url="jdbc:mysql://192.168.1.8:3306/umbrella?useUnicode=true&amp;characterEncoding=UTF-8"
           p:username="root"
           p:password="root"
           p:maxActive="20"
@@ -38,7 +38,7 @@
           p:mapperLocations="classpath*:mapper/*Mapper.xml"/>
     <!-- spring与mybatis整合配置，扫描所有dao 和所有mapper文件 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
-          p:basePackage="com.blibee.umbrella.dao"
+          p:basePackage="com.pro.umbrella.dao"
           p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
     <!-- 配置事务管理器 -->
     <bean id="transactionManager"
@@ -46,7 +46,7 @@
           p:dataSource-ref="dataSource" />
     <aop:config proxy-target-class="true">
         <aop:pointcut id="serviceMethod"
-                      expression="(execution(* com.blibee.umbrella.service..*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))" />
+                      expression="(execution(* com.pro.umbrella.service..*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))" />
         <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
     </aop:config>
     <tx:advice id="txAdvice" transaction-manager="transactionManager">

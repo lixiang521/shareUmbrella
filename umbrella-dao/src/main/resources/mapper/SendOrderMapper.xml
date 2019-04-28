@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.blibee.umbrella.dao.SendOrderMapper">
-  <resultMap id="BaseResultMap" type="com.blibee.umbrella.model.pojo.SendOrder">
+<mapper namespace="com.pro.umbrella.dao.SendOrderMapper">
+  <resultMap id="BaseResultMap" type="com.pro.umbrella.model.pojo.SendOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="action_id" jdbcType="VARCHAR" property="actionId" />
     <result column="main_device_id" jdbcType="VARCHAR" property="mainDeviceId" />
@@ -75,7 +75,7 @@
     id, action_id, main_device_id, sub_device_id, device_type, operation, parameter, 
     send_type, send_times, create_time
   </sql>
-  <select id="selectByExample" parameterType="com.blibee.umbrella.model.pojo.SendOrderExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pro.umbrella.model.pojo.SendOrderExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -99,13 +99,13 @@
     delete from send_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.blibee.umbrella.model.pojo.SendOrderExample">
+  <delete id="deleteByExample" parameterType="com.pro.umbrella.model.pojo.SendOrderExample">
     delete from send_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.blibee.umbrella.model.pojo.SendOrder">
+  <insert id="insert" parameterType="com.pro.umbrella.model.pojo.SendOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -118,7 +118,7 @@
       #{sendType,jdbcType=TINYINT}, #{sendTimes,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.blibee.umbrella.model.pojo.SendOrder">
+  <insert id="insertSelective" parameterType="com.pro.umbrella.model.pojo.SendOrder">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -182,7 +182,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.blibee.umbrella.model.pojo.SendOrderExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.pro.umbrella.model.pojo.SendOrderExample" resultType="java.lang.Long">
     select count(*) from send_order
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -242,7 +242,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.blibee.umbrella.model.pojo.SendOrder">
+  <update id="updateByPrimaryKeySelective" parameterType="com.pro.umbrella.model.pojo.SendOrder">
     update send_order
     <set>
       <if test="actionId != null">
@@ -275,7 +275,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.blibee.umbrella.model.pojo.SendOrder">
+  <update id="updateByPrimaryKey" parameterType="com.pro.umbrella.model.pojo.SendOrder">
     update send_order
     set action_id = #{actionId,jdbcType=VARCHAR},
       main_device_id = #{mainDeviceId,jdbcType=VARCHAR},
@@ -288,7 +288,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="com.blibee.umbrella.model.pojo.SendOrderExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="com.pro.umbrella.model.pojo.SendOrderExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct

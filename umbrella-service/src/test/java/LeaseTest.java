@@ -1,5 +1,5 @@
-import com.blibee.umbrella.dao.LeaseRecordMapper;
-import com.blibee.umbrella.model.pojo.LeaseRecord;
+import com.pro.umbrella.dao.LeaseRecordMapper;
+import com.pro.umbrella.model.pojo.LeaseRecord;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
