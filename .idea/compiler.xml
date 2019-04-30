@@ -9,13 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="umbrella-common" />
         <module name="umbrella-dao" />
+        <module name="umbrella-es" />
         <module name="umbrella-service" />
         <module name="umbrella-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="umbrella-api" target="1.8" />
-      <module name="umbrella-es" target="1.8" />
       <module name="umbrella-link" target="1.8" />
       <module name="umbrella-opweb" target="1.8" />
     </bytecodeTargetLevel>

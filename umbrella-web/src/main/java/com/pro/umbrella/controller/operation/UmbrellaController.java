@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
+
 /**
  * Created by lixiang on 2019/04/27.
  */
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/umbrella")
 @ResponseBody
 public class UmbrellaController {
-    @Autowired
+    @Resource
     private UmbrellaService umbrellaService;
 
     /**

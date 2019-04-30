@@ -1,8 +1,11 @@
 package controller;
 
 import com.pro.umbrella.api.json.JsonUtil;
+import com.pro.umbrella.api.pojo.page.PageRequest;
 import com.pro.umbrella.model.constants.TransferState;
+import com.pro.umbrella.model.ro.JsonCabinetEsResp;
 import com.pro.umbrella.model.ro.OperationUmbrellaCabinetAddReq;
+import com.pro.umbrella.model.ro.OperationUmbrellaCabinetPageReq;
 import com.pro.umbrella.service.UmbrellaCabinetService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,5 +44,15 @@ public class UmbrellaCabinteControllerTest {
         req.setPutDate(new Date());
         System.out.println(JsonUtil.toJson(req));
         umbrellaCabinetService.add(req);
+    }
+
+    @Test
+    public void queryUmbrellaCabinet() {
+        OperationUmbrellaCabinetPageReq req = new OperationUmbrellaCabinetPageReq();
+        req.setPage(new PageRequest.Page(10, 1));
+        JsonCabinetEsResp pager = umbrellaCabinetService.queryList(req);
+        if (pager != null && pager.getData().getData() != null) {
+            System.out.println(pager);
+        }
     }
 }

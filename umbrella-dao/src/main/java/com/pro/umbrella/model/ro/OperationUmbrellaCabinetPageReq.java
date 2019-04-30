@@ -2,6 +2,8 @@ package com.pro.umbrella.model.ro;
 
 import com.pro.umbrella.api.pojo.page.PageRequest;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Created by lixiang on 2019/04/27.
@@ -28,4 +30,11 @@ public class OperationUmbrellaCabinetPageReq extends PageRequest {
     private String canReturn; // 可还
     private String city; // 市
     private String commentMessage;
+
+    private int[] transStatesArray;
+    private String[] hardVersArray;
+    private String[] softVersArray;
+    private String[] sceneTypeArray;
+    private String[] sceneArray;
+    private String[] cityArray;
 }

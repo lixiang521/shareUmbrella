@@ -5,6 +5,7 @@
     <file url="file://$PROJECT_DIR$/umbrella-api" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/umbrella-common" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/umbrella-dao" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/umbrella-es" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/umbrella-service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/umbrella-web" charset="UTF-8" />
   </component>

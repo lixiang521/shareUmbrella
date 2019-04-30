@@ -13,6 +13,8 @@
        http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <context:component-scan base-package="com.pro.umbrella.fd"/>
+    <context:component-scan base-package="com.pro.umbrella.common"/>
     <context:component-scan base-package="com.pro.umbrella.service"/>
     <!-- dbcp数据源 -->
     <!-- 配置数据源 -->

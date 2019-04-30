@@ -13,6 +13,8 @@
        http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <context:component-scan base-package="com.pro.umbrella.fd"/>
+    <context:component-scan base-package="com.pro.umbrella.common"/>
     <context:component-scan base-package="com.pro.umbrella.service"/>
     <!-- dbcp数据源 -->
     <!-- 配置数据源 -->
@@ -35,18 +37,18 @@
           class="org.mybatis.spring.SqlSessionFactoryBean"
           p:dataSource-ref="dataSource"
           p:configLocation="classpath:mybatis-config.xml"
-          p:mapperLocations="classpath*:mapper/*Mapper.xml"/>
+    p:mapperLocations="classpath*:mapper/*Mapper.xml"/>
     <!-- spring与mybatis整合配置，扫描所有dao 和所有mapper文件 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
-          p:basePackage="com.pro.umbrella.dao"
-          p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
+    p:basePackage="com.pro.umbrella.dao"
+    p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
     <!-- 配置事务管理器 -->
     <bean id="transactionManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-          p:dataSource-ref="dataSource" />
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+    p:dataSource-ref="dataSource" />
     <aop:config proxy-target-class="true">
         <aop:pointcut id="serviceMethod"
-                      expression="(execution(* com.pro.umbrella.service..*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))" />
+        expression="(execution(* com.pro.umbrella.service..*(..))) and (@annotation(org.springframework.transaction.annotation.Transactional))" />
         <aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
     </aop:config>
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
@@ -54,4 +56,11 @@
             <tx:method name="*" />
         </tx:attributes>
     </tx:advice>
+    <!-- 以下是AsyncHttpClient默认值，请各项目根据自身情况，适度调整 -->
+    <bean id="ahcHttpClientConfig" class="com.pro.umbrella.fd.wclient.http.ahc.AHCHttpClient.Builder"
+          p:maxConnections="220"
+          p:maxConnectionsPerHost="200"
+          p:connectTimeout="2000"
+          p:requestTimeout="5000"/>
+    <bean id="httpClient" factory-bean="ahcHttpClientConfig" factory-method="build"/>
 </beans>

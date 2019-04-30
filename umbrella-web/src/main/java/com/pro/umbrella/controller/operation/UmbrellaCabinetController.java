@@ -1,7 +1,9 @@
 package com.pro.umbrella.controller.operation;
 
 import com.pro.umbrella.model.constants.JsonResult;
+import com.pro.umbrella.model.ro.JsonCabinetEsResp;
 import com.pro.umbrella.model.ro.OperationUmbrellaCabinetAddReq;
+import com.pro.umbrella.model.ro.OperationUmbrellaCabinetPageReq;
 import com.pro.umbrella.service.UmbrellaCabinetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,9 +39,9 @@ public class UmbrellaCabinetController {
      * @param req
      * @return
      */
-//    @RequestMapping("/list/v1")
-//    public JsonCabinetEsResp list(@RequestBody OperationUmbrellaCabinetPageReq req) {
-//        return umbrellaCabinetService.queryList(req);
-//    }
+    @RequestMapping("/list/v1")
+    public JsonCabinetEsResp list(@RequestBody OperationUmbrellaCabinetPageReq req) {
+        return umbrellaCabinetService.queryList(req);
+    }
 
 }
