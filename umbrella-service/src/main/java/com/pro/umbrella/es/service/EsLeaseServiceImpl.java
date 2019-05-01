@@ -1,4 +1,4 @@
-//package com.pro.umbrella.es.service;
+package com.pro.umbrella.es.service;//package com.pro.umbrella.es.service;
 //
 //import com.google.common.collect.Lists;
 //import com.tempoon.umbrella.constants.enums.TypeStateEnums;

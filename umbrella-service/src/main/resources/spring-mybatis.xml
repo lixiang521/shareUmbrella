@@ -15,6 +15,7 @@
        http://www.springframework.org/schema/tx/spring-tx.xsd">
     <context:component-scan base-package="com.pro.umbrella.fd"/>
     <context:component-scan base-package="com.pro.umbrella.common"/>
+    <context:component-scan base-package="com.pro.umbrella.es"/>
     <context:component-scan base-package="com.pro.umbrella.service"/>
     <!-- dbcp数据源 -->
     <!-- 配置数据源 -->
@@ -56,4 +57,14 @@
             <tx:method name="*" />
         </tx:attributes>
     </tx:advice>
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <!-- 引入properties配置文件 方式一 -->
+        <property name="locations">
+            <list>
+                <value>classpath:es.properties</value>
+            </list>
+        </property>
+    </bean>
 </beans>

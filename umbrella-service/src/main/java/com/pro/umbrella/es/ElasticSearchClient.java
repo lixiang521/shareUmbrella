@@ -32,7 +32,7 @@ public class ElasticSearchClient implements InitializingBean, DisposableBean {
     private String clusterName;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         System.setProperty("es.set.netty.runtime.available.processors", "false");
         List<InetSocketTransportAddress> addresses = CommonConstants.SPLITTER_COMMA.splitToList(servers).stream()
                 .map(x -> {
@@ -58,7 +58,6 @@ public class ElasticSearchClient implements InitializingBean, DisposableBean {
                     .put("client.transport.ping_timeout", "5s").put("client.transport.sniff", false).build();
             client = new PreBuiltTransportClient(settings)
                     .addTransportAddresses(addresses.toArray(new InetSocketTransportAddress[]{}));
-
             System.out.println("[ElasticSearch-Client]服务连接成功");
         } catch (Exception e) {
             System.out.println("[ElasticSearch-Client]服务连接失败"+ e);

@@ -19,11 +19,11 @@ import java.util.function.Function;
 /**
  * AHC Http Client
  */
-@Slf4j
-@Service
+//@Slf4j
+//@Service
 public class HttpRequests {
 
-    @Resource
+//    @Resource
     private HttpClient<Response> httpClient;
 
     /**

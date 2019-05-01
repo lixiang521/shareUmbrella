@@ -19,20 +19,14 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.sort.SortOrder;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -258,21 +252,6 @@ public class  EsCabinetService {
                 qb.must(QueryBuilders.termsQuery(Prop.CITY, param.getCity()));
             }
 
-            if (!Strings.isNullOrEmpty(param.getProvince())) {
-                qb.must(QueryBuilders.termQuery(Prop.PROVINCE, param.getProvince()));
-            }
-
-            if (!Strings.isNullOrEmpty(param.getDistrict())) {
-                qb.must(QueryBuilders.termQuery(Prop.DISTRICT, param.getDistrict()));
-            }
-
-            if (!Strings.isNullOrEmpty(param.getClientId())) {
-                qb.must(QueryBuilders.termQuery(Prop.CLIENT_ID, param.getClientId()));
-            }
-
-            if (!Strings.isNullOrEmpty(param.getClientName())) {
-                qb.must(QueryBuilders.matchPhraseQuery(Prop.CLIENT_NAME, param.getClientName()));
-            }
 
             if (param.getCanLease() != null) {
                 qb.must(QueryBuilders.termQuery(Prop.CAN_LEASE, param.getCanLease()));
@@ -290,28 +269,8 @@ public class  EsCabinetService {
                 qb.must(QueryBuilders.termQuery(Prop.IS_ONLINE, param.getIsOnline()));
             }
 
-            if (!Strings.isNullOrEmpty(param.getLocation())) {
-                qb.must(QueryBuilders.matchPhraseQuery(Prop.LOCATION, param.getLocation()));
-            }
-
-            if (!Strings.isNullOrEmpty(param.getShopCode())) {
-                qb.must(QueryBuilders.termQuery(Prop.SHOP_CODE, param.getShopCode()));
-            }
-
-            if (!Strings.isNullOrEmpty(param.getPointId())) {
-                qb.must(QueryBuilders.termQuery(Prop.POINT_ID, param.getPointId()));
-            }
-
-            if (!Strings.isNullOrEmpty(param.getPointName())) {
-                qb.must(QueryBuilders.matchPhraseQuery(Prop.POINT_NAME, param.getPointName()));
-            }
-
             if (param.getScene() != null && !param.getScene().isEmpty()) {
                 qb.must(QueryBuilders.termsQuery(Prop.SCENE, param.getScene()));
-            }
-
-            if (param.getSceneType() != null && !param.getSceneType().isEmpty()) {
-                qb.must(QueryBuilders.termsQuery(Prop.SCENE_TYPE, param.getSceneType()));
             }
 
             if (param.getHardVers() != null && !param.getHardVers().isEmpty()) {
@@ -326,18 +285,8 @@ public class  EsCabinetService {
                 qb.must(QueryBuilders.rangeQuery(Prop.CSQ).from(param.getMinCsq()).to(param.getMaxCsq()));
             }
 
-            if (param.getMinMigrateDate() != null && param.getMaxMigrateDate() != null) {
-                qb.must(QueryBuilders.rangeQuery(Prop.MIGRATE_DATE).from(param.getMinMigrateDate())
-                        .to(param.getMaxMigrateDate()));
-            }
-
             if (param.getMinPutDate() != null && param.getMaxPutDate() != null) {
                 qb.must(QueryBuilders.rangeQuery(Prop.PUT_DATE).from(param.getMinPutDate()).to(param.getMaxPutDate()));
-            }
-
-            if (param.getMinUnsortedCap() != null && param.getMaxUnsortedCap() != null) {
-                qb.must(QueryBuilders.rangeQuery(Prop.UNSORTED_CAP).from(param.getMinUnsortedCap())
-                        .to(param.getMaxUnsortedCap()));
             }
 
         if (param.getMinVbat() != null && param.getMaxVbat() != null) {

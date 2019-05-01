@@ -40,8 +40,8 @@ public class UmbrellaCabinetController {
      * @return
      */
     @RequestMapping("/list/v1")
-    public JsonCabinetEsResp list(@RequestBody OperationUmbrellaCabinetPageReq req) {
-        return umbrellaCabinetService.queryList(req);
+    public JsonResult list(@RequestBody OperationUmbrellaCabinetPageReq req) {
+        return JsonResult.success(umbrellaCabinetService.queryList(req));
     }
 
 }

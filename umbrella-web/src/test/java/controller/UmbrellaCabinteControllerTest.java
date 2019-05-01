@@ -7,6 +7,7 @@ import com.pro.umbrella.model.ro.JsonCabinetEsResp;
 import com.pro.umbrella.model.ro.OperationUmbrellaCabinetAddReq;
 import com.pro.umbrella.model.ro.OperationUmbrellaCabinetPageReq;
 import com.pro.umbrella.service.UmbrellaCabinetService;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lixiang on 2019/04/27.
@@ -49,10 +52,33 @@ public class UmbrellaCabinteControllerTest {
     @Test
     public void queryUmbrellaCabinet() {
         OperationUmbrellaCabinetPageReq req = new OperationUmbrellaCabinetPageReq();
+        req.setId("");
+        req.setMinCap(1);
+        req.setMaxCap(20);
+        List<Integer> list1 =  new ArrayList<>();
+        list1.add(1 );
+        list1.add(2 );
+        req.setTransStates(list1);
+        List<String> list2 =  new ArrayList<>();
+        list2.add("1");
+        list2.add("2");
+        req.setSoftVers(list2);
+        req.setHardVers(list2);
+        req.setScene(list2);
+        req.setDeviceId("");
+        req.setMinCsq(1);
+        req.setMaxCsq(20);
+        req.setMinVbat(1d);
+        req.setMaxVbat(20d);
+        req.setMinPutDate(new Date());
+        req.setMaxPutDate(new Date());
+        req.setIsOnline(1);
+        req.setCanLease(1);
+        req.setCanReturn(1);
+        req.setCity(list2);
         req.setPage(new PageRequest.Page(10, 1));
-        JsonCabinetEsResp pager = umbrellaCabinetService.queryList(req);
-        if (pager != null && pager.getData().getData() != null) {
-            System.out.println(pager);
-        }
+        System.out.println(JsonUtil.toJson(req));
+        System.out.println(JsonUtil.toJson(umbrellaCabinetService.queryList(req)));
+
     }
 }
