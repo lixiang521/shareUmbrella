@@ -1,43 +1,44 @@
 package com.pro.umbrella.model.constants;
 
+
 /**
- * Created by lixiang on 2019/04/27.
+ * Created by zhiwen.cao on 2017/10/25.
  */
-public interface TransferState {
+public interface TransferStateEnums {
 
     /**
      * 雨伞流转状态
      */
     interface UmbrellaTransferState {
 
-        //全部
+        //@Diff("全部")
         byte ALL = 0;
 
-        //待投放")
+        //@Diff("待投放")
         byte WAIT_PUTIN = 1;
 
-        //伞柜中")
+        //@Diff("伞柜中")
         byte IN_CABINET = 2;
 
-        //租借中")
+        //@Diff("租借中")
         byte BORROWING = 3;
 
-        //超时售出")
+        //@Diff("超时售出")
         byte SELLED_OVERTIME = 4;
 
-        //测试取出")
+        //@Diff("测试取出")
         byte TESTER_BORROW = 5;
 
-        //暂存中")
+        //@Diff("暂存中")
         byte STORAGING = 6;
 
-        //丢失")
+        //@Diff("丢失")
         byte LOSE = 7;
 
-        //顺序异常")
+        //@Diff("顺序异常")
         byte SORT_EXCPETION = 8;
 
-        //购买售出")
+        //@Diff("购买售出")
         byte SELLED_BUY = 9;
 
         static boolean contains(Byte state) {
@@ -47,19 +48,19 @@ public interface TransferState {
     }
 
     interface UmbrellaRepairState {
-        //正常")
+        //@Diff("正常")
         byte NORMAL = 0;
 
-        //疑似异常")
+        //@Diff("疑似异常")
         byte MAY_ABNORMAL = 1;
 
-        //待维修")
+        //@Diff("待维修")
         byte WAIT_REPAIR = 2;
 
-        //维修中")
+        //@Diff("维修中")
         byte REPAIRING = 3;
 
-        //已废弃")
+        //@Diff("已废弃")
         byte ABANDON = 4;
 
         static boolean contains(Byte state) {
@@ -72,28 +73,28 @@ public interface TransferState {
      * 雨伞柜流转状态
      */
     interface UmbrellaCabinetTransferState {
-        //未注册")
+        //@Diff("未注册")
         byte WAIT_REGISTER = 1;
 
-        //待验证")
+        //@Diff("待验证")
         byte WAIT_CONFIRM = 2;
 
-        //待上线")
+        //@Diff("待上线")
         byte WAIT_ONLINE = 3;
 
-        //已上线")
+        //@Diff("已上线")
         byte ONLINE = 4;
 
-        //待维修")
+        //@Diff("待维修")
         byte WAIT_REPAIR = 5;
 
-        //维修中")
+        //@Diff("维修中")
         byte REPAIRING = 6;
 
-        //报废")
+        //@Diff("报废")
         byte DISCARD = 7;
 
-        //丢失")
+        //@Diff("丢失")
         byte LOSE = 8;
 
         static boolean contains(Byte state) {

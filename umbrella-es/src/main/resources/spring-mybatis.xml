@@ -13,15 +13,18 @@
        http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx.xsd">
-    <context:component-scan base-package="com.pro.umbrella.common"/>
-    <context:component-scan base-package="com.pro.umbrella.service"/>
     <context:component-scan base-package="com.pro.umbrella.fd"/>
+    <context:component-scan base-package="com.pro.umbrella.common"/>
+    <context:component-scan base-package="com.pro.umbrella.model"/>
+    <context:component-scan base-package="com.pro.umbrella.dao"/>
+    <context:component-scan base-package="com.pro.umbrella.es"/>
+    <context:component-scan base-package="com.pro.umbrella.service"/>
     <!-- dbcp数据源 -->
     <!-- 配置数据源 -->
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close"
           p:driverClassName="com.mysql.jdbc.Driver"
-          p:url="jdbc:mysql://192.168.1.8:3306/umbrella?useUnicode=true&amp;characterEncoding=UTF-8"
+          p:url="jdbc:mysql://192.168.1.3:3306/umbrella?useUnicode=true&amp;characterEncoding=UTF-8"
           p:username="root"
           p:password="root"
           p:maxActive="20"

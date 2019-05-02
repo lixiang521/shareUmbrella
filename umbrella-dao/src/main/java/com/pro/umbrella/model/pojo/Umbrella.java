@@ -1,5 +1,7 @@
 package com.pro.umbrella.model.pojo;
 
+import org.springframework.beans.BeanUtils;
+
 import java.util.Date;
 
 public class Umbrella {
@@ -91,5 +93,10 @@ public class Umbrella {
 
     public void setSoftVer(String softVer) {
         this.softVer = softVer == null ? null : softVer.trim();
+    }
+    public Umbrella cloneOne() {
+        Umbrella umbrella = new Umbrella();
+        BeanUtils.copyProperties(this, umbrella);
+        return umbrella;
     }
 }

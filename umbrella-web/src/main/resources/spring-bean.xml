@@ -2,13 +2,34 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
        xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 以下是AsyncHttpClient默认值，请各项目根据自身情况，适度调整 -->
-    <bean id="ahcHttpClientConfig" class="com.pro.umbrella.fd.wclient.http.ahc.AHCHttpClient.Builder"
-          p:maxConnections="220"
-          p:maxConnectionsPerHost="200"
-          p:connectTimeout="2000"
-          p:requestTimeout="5000"/>
-    <bean id="HttpClient" factory-bean="ahcHttpClientConfig" factory-method="build"/>
+    <bean id="idGenerator" class="com.pro.umbrella.model.constants.id.SnowflakeIDGenerator" init-method="init">
+        <property name="workerIDMeta" value="${idgenerator.workerIDMeta}"/>
+    </bean>
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxTotal" value="${redis.maxTotal}"/>
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}"/>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+    </bean>
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
+        <!-- 端口，默认6379 -->
+        <constructor-arg index="1" value="${redis.host}" name="host" type="java.lang.String"/>
+        <constructor-arg index="2" value="${redis.port}" name="port" type="int"/>
+        <constructor-arg index="3" value="${redis.timeout}" name="timeout" type="int"/>
+        <constructor-arg index="4" value="${redis.password}" name="password" type="java.lang.String"/>
+    </bean>
+    <bean id="redisAPI" class="com.pro.umbrella.common.util.RedisAPI">
+        <property name="jedisPool" ref="jedisPool"/>
+    </bean>
+    <!--<bean id="ahcHttpClientConfig" class="com.pro.umbrella.fd.wclient.http.ahc.AHCHttpClient.Builder"-->
+    <!--p:maxConnections="220"-->
+    <!--p:maxConnectionsPerHost="200"-->
+    <!--p:connectTimeout="2000"-->
+    <!--p:requestTimeout="5000"/>-->
+    <!--<bean id="HttpClient" factory-bean="ahcHttpClientConfig" factory-method="build"/>-->
 </beans>

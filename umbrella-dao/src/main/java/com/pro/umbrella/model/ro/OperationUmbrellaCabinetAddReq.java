@@ -1,28 +1,31 @@
 package com.pro.umbrella.model.ro;
 
+import com.pro.umbrella.api.pojo.BaseBean;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 /**
- * Created by lixiang on 2019/04/27.
+ * Created by longchaochen on 2017/10/25.
  */
 @Data
-public class OperationUmbrellaCabinetAddReq {
-    private String deviceId;    //设备id
-    private String umbrellaCabinetNumber;   //伞柜id
-    private BigDecimal longitude;   //经度
-    private BigDecimal latitude;   //纬度
-    private Byte transState;      //流转状态
-    private String hardVer;      //硬件版本号
-    private String softVer;      //软件版本号
-    private String city;        //所在城市
-    private String scene;       //所在场景
-    private String commentMessage;    // 备注
+public class OperationUmbrellaCabinetAddReq extends BaseBean {
+    private static final long serialVersionUID = -4931027097127775818L;
+
+    private String deviceId;
+    private String umbrellaCabinetNumber;
+    private BigDecimal longitude;
+    private BigDecimal latitude;
+    private Byte transState;
+    private String hardVer;
+    private String softVer;
+    private String city;
+    private String scene;
+    // 备注
+    private String commentMessage;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date putDate;    //投放日期
+    private Date putDate;
 }

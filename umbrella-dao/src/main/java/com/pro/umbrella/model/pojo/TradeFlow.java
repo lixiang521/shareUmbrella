@@ -1,5 +1,7 @@
 package com.pro.umbrella.model.pojo;
 
+import org.springframework.beans.BeanUtils;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -162,5 +164,12 @@ public class TradeFlow {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+
+    public TradeFlow cloneOne() {
+        TradeFlow tradeFlow = new TradeFlow();
+        BeanUtils.copyProperties(this, tradeFlow);
+        return tradeFlow;
     }
 }

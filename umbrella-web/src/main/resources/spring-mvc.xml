@@ -22,17 +22,6 @@
        <property name="suffix" value=".jsp" />
        <property name="order" value="2"/>
    </bean>
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="ignoreUnresolvablePlaceholders" value="true"/>
-        <!-- 引入properties配置文件 方式一 -->
-        <property name="locations">
-            <list>
-                <value>classpath:config.properties</value>
-            </list>
-        </property>
-    </bean>
-    <import resource="classpath*:spring-bean.xml"/>
     <!--<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
         <!--<property name="supportedMediaTypes">-->
             <!--<list>-->

@@ -1,5 +1,7 @@
 package com.pro.umbrella.model.pojo;
 
+import org.springframework.beans.BeanUtils;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -352,5 +354,10 @@ public class UmbrellaCabinet {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+    public UmbrellaCabinet cloneOne() {
+        UmbrellaCabinet umbrellaCabinet = new UmbrellaCabinet();
+        BeanUtils.copyProperties(this, umbrellaCabinet);
+        return umbrellaCabinet;
     }
 }

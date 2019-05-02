@@ -2,9 +2,10 @@ package com.pro.umbrella.dao;
 
 import com.pro.umbrella.model.pojo.User;
 import com.pro.umbrella.model.pojo.UserExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+
+import java.util.List;
 
 public interface UserMapper {
     long countByExample(UserExample example);

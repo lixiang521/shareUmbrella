@@ -93,30 +93,19 @@ public class  EsCabinetService {
     private static EsCabinetResp transform(EsCabinet cabinet) {
         EsCabinetResp resp = new EsCabinetResp();
         resp.setId(cabinet.getId());
-        resp.setShopCode(cabinet.getShopCode());
         resp.setHardVer(cabinet.getHardVer());
         resp.setSoftVer(cabinet.getSoftVer());
         resp.setScene(cabinet.getScene());
         resp.setDeviceId(cabinet.getDeviceId());
-        resp.setClientId(cabinet.getClientId());
-        resp.setClientName(cabinet.getClientName());
-        resp.setPointId(cabinet.getPointId());
-        resp.setPointName(cabinet.getPointName());
-        resp.setLocation(cabinet.getLocation());
         resp.setCapacity(cabinet.getCapacity());
         resp.setCsq(cabinet.getCsq());
         resp.setVbat(cabinet.getVbat());
-        resp.setUnsortedCapacity(cabinet.getUnsortedCapacity());
         resp.setPutDate(cabinet.getPutDate());
-        resp.setMigrateDate(cabinet.getMigrateDate());
         resp.setIsOnline(cabinet.getIsOnline());
         resp.setTransState(cabinet.getTransState());
         resp.setCanLease(cabinet.getCanLease());
         resp.setCanReturn(cabinet.getCanReturn());
-        resp.setProvince(cabinet.getProvince());
         resp.setCity(cabinet.getCity());
-        resp.setDistrict(cabinet.getDistrict());
-        resp.setSceneType(cabinet.getSceneType());
         return resp;
     }
 

@@ -2,7 +2,7 @@ package controller;
 
 import com.pro.umbrella.api.json.JsonUtil;
 import com.pro.umbrella.api.pojo.page.PageRequest;
-import com.pro.umbrella.model.constants.TransferState;
+import com.pro.umbrella.model.constants.TransferStateEnums;
 import com.pro.umbrella.model.ro.OperationUmbrellaAddReq;
 import com.pro.umbrella.model.ro.OperationUmbrellaPageReq;
 import com.pro.umbrella.service.GlobalConfigService;
@@ -32,7 +32,7 @@ public class UmbrellaControllerTest {
         OperationUmbrellaAddReq req = new OperationUmbrellaAddReq();
         req.setUmbrellaNumber("1037811005");
         req.setUmbrellaCabinetNumber("1027550397");
-        req.setTransState(TransferState.UmbrellaTransferState.IN_CABINET);
+        req.setTransState(TransferStateEnums.UmbrellaTransferState.IN_CABINET);
         req.setHardVer("U1AD1.00");
         System.out.println(JsonUtil.toJson(req));
         umbrellaService.add(req);
@@ -46,7 +46,7 @@ public class UmbrellaControllerTest {
         OperationUmbrellaAddReq req = new OperationUmbrellaAddReq();
         req.setUmbrellaNumber("1037811005");
         req.setUmbrellaCabinetNumber("1027550397");
-        req.setTransState(TransferState.UmbrellaTransferState.IN_CABINET);
+        req.setTransState(TransferStateEnums.UmbrellaTransferState.IN_CABINET);
         req.setHardVer("U2AD2.00");
         System.out.println(JsonUtil.toJson(req));
         umbrellaService.update(req);
@@ -59,7 +59,7 @@ public class UmbrellaControllerTest {
     public void list() {
         OperationUmbrellaPageReq req = new OperationUmbrellaPageReq();
         req.setUmbrellaNumber("");
-        req.setTransState(TransferState.UmbrellaTransferState.BORROWING);
+        req.setTransState(TransferStateEnums.UmbrellaTransferState.BORROWING);
         req.setHardVer("");
         req.setPage(new PageRequest.Page(5, 1));
 

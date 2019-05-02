@@ -1,5 +1,7 @@
 package com.pro.umbrella.model.pojo;
 
+import org.springframework.beans.BeanUtils;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -312,5 +314,10 @@ public class LeaseRecord {
 
     public void setPayMethod(String payMethod) {
         this.payMethod = payMethod == null ? null : payMethod.trim();
+    }
+    public LeaseRecord cloneOne() {
+        LeaseRecord leaseRecord = new LeaseRecord();
+        BeanUtils.copyProperties(this, leaseRecord);
+        return leaseRecord;
     }
 }

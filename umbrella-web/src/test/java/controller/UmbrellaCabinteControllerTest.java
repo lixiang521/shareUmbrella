@@ -2,7 +2,8 @@ package controller;
 
 import com.pro.umbrella.api.json.JsonUtil;
 import com.pro.umbrella.api.pojo.page.PageRequest;
-import com.pro.umbrella.model.constants.TransferState;
+
+import com.pro.umbrella.model.constants.TransferStateEnums;
 import com.pro.umbrella.model.ro.JsonCabinetEsResp;
 import com.pro.umbrella.model.ro.OperationUmbrellaCabinetAddReq;
 import com.pro.umbrella.model.ro.OperationUmbrellaCabinetPageReq;
@@ -34,11 +35,11 @@ public class UmbrellaCabinteControllerTest {
     @Test
     public void add() {
         OperationUmbrellaCabinetAddReq req = new OperationUmbrellaCabinetAddReq();
-        req.setDeviceId("550397");
-        req.setUmbrellaCabinetNumber("1027550397");
+        req.setDeviceId("000119");
+        req.setUmbrellaCabinetNumber("2037000119");
         req.setLongitude(BigDecimal.valueOf(116.4666171));
         req.setLatitude(BigDecimal.valueOf(39.92865856));
-        req.setTransState(TransferState.UmbrellaCabinetTransferState.WAIT_ONLINE);
+        req.setTransState(TransferStateEnums.UmbrellaCabinetTransferState.WAIT_ONLINE);
         req.setHardVer("S3AE3.00");
         req.setSoftVer("blf_v302");
         req.setCity("上海");
@@ -52,33 +53,50 @@ public class UmbrellaCabinteControllerTest {
     @Test
     public void queryUmbrellaCabinet() {
         OperationUmbrellaCabinetPageReq req = new OperationUmbrellaCabinetPageReq();
-        req.setId("");
-        req.setMinCap(1);
-        req.setMaxCap(20);
-        List<Integer> list1 =  new ArrayList<>();
-        list1.add(1 );
-        list1.add(2 );
-        req.setTransStates(list1);
-        List<String> list2 =  new ArrayList<>();
-        list2.add("1");
-        list2.add("2");
-        req.setSoftVers(list2);
-        req.setHardVers(list2);
-        req.setScene(list2);
-        req.setDeviceId("");
-        req.setMinCsq(1);
-        req.setMaxCsq(20);
-        req.setMinVbat(1d);
-        req.setMaxVbat(20d);
-        req.setMinPutDate(new Date());
-        req.setMaxPutDate(new Date());
-        req.setIsOnline(1);
-        req.setCanLease(1);
-        req.setCanReturn(1);
-        req.setCity(list2);
+//        req.setId("");
+//        req.setMinCap(1);
+//        req.setMaxCap(20);
+//        List<Integer> list1 =  new ArrayList<>();
+//        list1.add(1 );
+//        list1.add(2 );
+//        req.setTransStates(list1);
+//        List<String> list2 =  new ArrayList<>();
+//        list2.add("1");
+//        list2.add("2");
+//        req.setSoftVers(list2);
+//        req.setHardVers(list2);
+//        req.setScene(list2);
+//        req.setDeviceId("");
+//        req.setMinCsq(1);
+//        req.setMaxCsq(20);
+//        req.setMinVbat(1d);
+//        req.setMaxVbat(20d);
+//        req.setMinPutDate(new Date());
+//        req.setMaxPutDate(new Date());
+//        req.setIsOnline(1);
+//        req.setCanLease(1);
+//        req.setCanReturn(1);
+//        req.setCity(list2);
         req.setPage(new PageRequest.Page(10, 1));
         System.out.println(JsonUtil.toJson(req));
         System.out.println(JsonUtil.toJson(umbrellaCabinetService.queryList(req)));
 
+    }
+    @Test
+    public void update(){
+        OperationUmbrellaCabinetAddReq req = new OperationUmbrellaCabinetAddReq();
+        req.setDeviceId("000119");
+        req.setUmbrellaCabinetNumber("2037000119");
+        req.setLongitude(BigDecimal.valueOf(116.4666171));
+        req.setLatitude(BigDecimal.valueOf(39.92865856));
+        req.setTransState(TransferStateEnums.UmbrellaCabinetTransferState.WAIT_ONLINE);
+        req.setHardVer("S3AE3.00");
+        req.setSoftVer("blf_v666");
+        req.setCity("上海");
+        req.setScene("超级市场（批发城、家电城、家居城）");
+        req.setCommentMessage("这是备注2");
+        req.setPutDate(new Date());        req.setTransState(TransferStateEnums.UmbrellaCabinetTransferState.WAIT_ONLINE);
+        System.out.println(JsonUtil.toJson(req));
+        umbrellaCabinetService.update(req);
     }
 }

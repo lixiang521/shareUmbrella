@@ -21,8 +21,8 @@ public class GlobalConfigControllerTest {
      */
     @Test
     public void add() {
-        String name = "umbrella_hard_ver";
-        String context = "[\"U1AD1.00\",\"U2AD2.00\",\"U2SD2.01\",\"U2CD2.00\",\"U2CD2.01\",\"U2CY2.03\",\"U2CT2.03\",\"U2CD2.03\",\"U3FD3.00\"]";
+        String name = "exam_charge";
+        String context = "{\"strategy\":\"B1\",\"unitTime\":\"30\",\"deposit\":\"49\",\"freeTimeMinute\":\"1\",\"cost\":\"2\",\"dayLimitCharge\":\"8\"}\t";
         String note = "雨伞硬件版本";
         globalConfigService.add(name, context, note);
     }

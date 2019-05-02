@@ -2,6 +2,7 @@ package com.pro.umbrella.controller.operation;
 
 import com.pro.umbrella.model.constants.JsonResult;
 import com.pro.umbrella.model.ro.OperationUmbrellaAddReq;
+import com.pro.umbrella.model.ro.OperationUmbrellaCabinetAddReq;
 import com.pro.umbrella.model.ro.OperationUmbrellaPageReq;
 import com.pro.umbrella.service.UmbrellaService;
 import org.springframework.beans.factory.annotation.Autowired;

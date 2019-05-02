@@ -39,9 +39,21 @@ public class UmbrellaCabinetController {
      * @param req
      * @return
      */
-    @RequestMapping("/list/v1")
+    @RequestMapping("/list")
     public JsonResult list(@RequestBody OperationUmbrellaCabinetPageReq req) {
         return JsonResult.success(umbrellaCabinetService.queryList(req));
+    }
+
+    /**
+     * 更新
+     *
+     * @param req
+     * @return
+     */
+    @RequestMapping("/update")
+    public JsonResult update(@RequestBody OperationUmbrellaCabinetAddReq req) {
+        umbrellaCabinetService.update(req);
+        return JsonResult.success(null);
     }
 
 }

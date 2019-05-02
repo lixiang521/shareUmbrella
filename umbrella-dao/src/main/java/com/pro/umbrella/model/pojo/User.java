@@ -19,6 +19,10 @@ public class User {
 
     private Byte state;
 
+    private String name;
+
+    private String password;
+
     private String telNumber;
 
     private Date createTime;
@@ -87,6 +91,22 @@ public class User {
 
     public void setState(Byte state) {
         this.state = state;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
     }
 
     public String getTelNumber() {

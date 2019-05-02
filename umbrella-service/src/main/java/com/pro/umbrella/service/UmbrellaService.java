@@ -4,7 +4,7 @@ import com.pro.umbrella.api.pojo.page.PageRequest;
 import com.pro.umbrella.api.pojo.page.Pager;
 import com.pro.umbrella.common.util.WAssert;
 import com.pro.umbrella.dao.UmbrellaMapper;
-import com.pro.umbrella.model.constants.TransferState;
+import com.pro.umbrella.model.constants.TransferStateEnums;
 import com.pro.umbrella.model.pojo.Umbrella;
 import com.pro.umbrella.model.pojo.UmbrellaCabinet;
 import com.pro.umbrella.model.pojo.UmbrellaExample;
@@ -12,11 +12,13 @@ import com.pro.umbrella.model.ro.OperationUmbrellaAddReq;
 import com.pro.umbrella.model.ro.OperationUmbrellaListResp;
 import com.pro.umbrella.model.ro.OperationUmbrellaPageReq;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -27,9 +29,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UmbrellaService {
-    @Autowired
+    @Resource
     private UmbrellaMapper umbrellaMapper;
-    @Autowired
+    @Resource
     private UmbrellaCabinetService umbrellaCabinetService;
 
     /**
@@ -44,7 +46,7 @@ public class UmbrellaService {
             WAssert.notNull(umbrellaCabinet, "雨伞柜不存在");
         }
         Umbrella umbrella = new Umbrella();
-        umbrella.setRepairState(TransferState.UmbrellaRepairState.NORMAL);
+        umbrella.setRepairState(TransferStateEnums.UmbrellaRepairState.NORMAL);
         BeanUtils.copyProperties(req, umbrella);
         WAssert.isTrue(1 == umbrellaMapper.insertSelective(umbrella), "添加雨伞失败");
     }
@@ -157,4 +159,46 @@ public class UmbrellaService {
         record.setUpdateTime(new Date());
         return umbrellaMapper.updateByExampleSelective(record, example);
     }
+    public List<Umbrella> queryByCabinetId(String cabinetId) {
+        if (StringUtils.isBlank(cabinetId)) {
+            return null;
+        }
+        UmbrellaExample example = new UmbrellaExample();
+        example.createCriteria().andUmbrellaCabinetNumberEqualTo(cabinetId);
+        return umbrellaMapper.selectByExample(example);
+    }
+    public void updateUmbrellaTransState(List<String> umbrellaNumbers,Byte transState){
+        Umbrella umbrella = new Umbrella();
+        umbrella.setTransState(transState);
+        UmbrellaExample umbrellaExample = new UmbrellaExample();
+        umbrellaExample.createCriteria().andUmbrellaNumberIn(umbrellaNumbers);
+        umbrellaMapper.updateByExample(umbrella,umbrellaExample );
+    }
+    @Transactional
+    public Void updateUmbrellaInfo(String operator, String umbrellaNumber, String cabinetNumber, Byte transState) {
+                Umbrella umbrella = queryByDeviceId(umbrellaNumber);
+                WAssert.isTrue(umbrella != null, "雨伞编号不存在");
+                Umbrella umbrellaOld = umbrella.cloneOne();
+                umbrella.setTransState(transState);
+                umbrella.setUmbrellaCabinetNumber(cabinetNumber);
+                umbrella.setUpdateTime(new Date());
+                int result = updateUseState(umbrella);
+                WAssert.isTrue(result > 0, "雨伞信息更新失败");
+                return null;
+    }
+    public Umbrella queryByDeviceId(String deviceId) {
+        if (StringUtils.isBlank(deviceId)) {
+            return null;
+        }
+        UmbrellaExample example = new UmbrellaExample();
+        example.createCriteria().andUmbrellaNumberEqualTo(deviceId);
+        List<Umbrella> lst = umbrellaMapper.selectByExample(example);
+        return (lst != null && !lst.isEmpty()) ? lst.get(0) : null;
+    }
+    public int updateUseState(Umbrella umbrella) {
+        UmbrellaExample example = new UmbrellaExample();
+        example.createCriteria().andUmbrellaNumberEqualTo(umbrella.getUmbrellaNumber());
+        return umbrellaMapper.updateByExampleSelective(umbrella, example);
+    }
+
 }
