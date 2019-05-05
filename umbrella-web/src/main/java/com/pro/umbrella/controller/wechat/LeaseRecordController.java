@@ -3,6 +3,7 @@ package com.pro.umbrella.controller.wechat;
 import com.pro.umbrella.model.constants.JsonResult;
 import com.pro.umbrella.model.pojo.LeaseRecord;
 import com.pro.umbrella.model.ro.EndLeaseReq;
+import com.pro.umbrella.model.ro.LeaseDetailResp;
 import com.pro.umbrella.model.ro.StartLeaseReq;
 import com.pro.umbrella.service.LeaseRecordService;
 import org.springframework.stereotype.Controller;
@@ -52,4 +53,17 @@ public class LeaseRecordController {
     public JsonResult endLease(@RequestBody EndLeaseReq endLeaseReq) {
         return JsonResult.success(leaseRecordService.endLease(endLeaseReq.getUid().toString(), leaseRecordService.queryDetail(endLeaseReq.getLeaseNumber()), endLeaseReq.getCabinetId(), new Date(), endLeaseReq.getEndState()));
     }
+
+
+    /**
+     * 租赁详情
+     *
+     * @param leaseNumber
+     * @return
+     */
+    @RequestMapping("/detail")
+    public JsonResult<LeaseDetailResp> detail(@RequestParam("leaseNumber") Long leaseNumber) {
+        return JsonResult.success(leaseRecordService.detail(leaseNumber));
+    }
+
 }

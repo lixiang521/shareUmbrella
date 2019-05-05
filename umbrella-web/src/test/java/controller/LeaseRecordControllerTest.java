@@ -116,4 +116,8 @@ public class LeaseRecordControllerTest {
         System.out.println(JsonUtil.toJson(request));
         System.out.println(JsonUtil.toJson(leaseRecordService.updateFaultState(request)));
     }
+    @Test
+    public void details(){
+        System.out.println(JsonUtil.toJson(leaseRecordService.detail(323352688144556032l)));
+    }
 }

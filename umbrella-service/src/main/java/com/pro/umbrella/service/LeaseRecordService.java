@@ -4,10 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.pro.umbrella.api.json.JsonUtil;
 import com.pro.umbrella.api.pojo.page.Pager;
-import com.pro.umbrella.common.util.DateFormatUtils;
-import com.pro.umbrella.common.util.MoneyUtils;
-import com.pro.umbrella.common.util.RedisAPI;
-import com.pro.umbrella.common.util.WAssert;
+import com.pro.umbrella.common.util.*;
 import com.pro.umbrella.dao.LeaseRecordMapper;
 import com.pro.umbrella.model.bo.ChargeDetail;
 import com.pro.umbrella.model.bo.LeaseCost;
@@ -599,6 +596,32 @@ public class LeaseRecordService {
 
         tradeFlowService.refundTradeFlow(operator, tradeFlow.getTradeNumber(), MoneyUtils.of(refundAmount), refundType);
 
+    }
+    public LeaseDetailResp detail(Long leaseNumber) {
+                LeaseRecord leaseRecord = WAssert.notNull(queryDetail(leaseNumber), "行程不存在");
+                Date endTime = leaseRecord.getEndTime().compareTo(leaseRecord.getStartTime()) >= 0
+                        ? leaseRecord.getEndTime()
+                        : new Date();
+                LeaseDetailResp leaseDetailResp = new LeaseDetailResp();
+                leaseDetailResp
+                        .setLeaseTime(DateUtil.formatDuring(endTime.getTime() - leaseRecord.getStartTime().getTime()));
+                leaseDetailResp.setLeaseState(leaseRecord.getLeaseState());
+
+                leaseDetailResp.setUmbrellaNumber(leaseRecord.getUmbrellaNumber());
+                leaseDetailResp.setTradeState(leaseRecord.getTradeState());
+                leaseDetailResp.setStartTime(DateFormatUtils.format4y2M2d2h2m2s(leaseRecord.getStartTime()));
+                leaseDetailResp.setCabinetLendNumber(leaseRecord.getCabinetLendNumber());
+                leaseDetailResp.setLeaseTimeUnit("");
+                leaseDetailResp.setEndTime(DateFormatUtils.format4y2M2d2h2m2s(endTime));
+
+                /** 租赁结束前根据时间计算费用 */
+                if (LeaseStateEnums.LeaseState.endContains(leaseRecord.getLeaseState())) {
+                    leaseDetailResp.setLeaseCost(costService.getLeaseCost(leaseRecord));
+                } else {
+                    leaseDetailResp
+                            .setLeaseCost(costService.leaseRecordCost(leaseRecord, new Date()));
+                }
+                return leaseDetailResp;
     }
 
 
