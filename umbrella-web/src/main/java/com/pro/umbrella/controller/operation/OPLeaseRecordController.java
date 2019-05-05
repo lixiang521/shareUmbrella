@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/lease/record")
 @ResponseBody
-public class LeaseRecordController {
+public class OPLeaseRecordController {
     @Autowired
     private LeaseRecordService leaseRecordService;
     @Resource
