@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import javax.annotation.Resource;
+
 /**
  * jedisAPI
  * @author luzhewu
@@ -11,6 +13,7 @@ import redis.clients.jedis.JedisPool;
  */
 @Service
 public class RedisAPI {
+    @Resource
     public JedisPool jedisPool;// redis连接池对象
 
     public JedisPool getJedisPool() {

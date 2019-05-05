@@ -5,10 +5,6 @@
 
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <!-- 以下是AsyncHttpClient默认值，请各项目根据自身情况，适度调整 -->
-    <bean id="idGenerator" class="com.pro.umbrella.model.constants.id.SnowflakeIDGenerator" init-method="init">
-        <property name="workerIDMeta" value="${idgenerator.workerIDMeta}"/>
-    </bean>
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxIdle" value="${redis.maxIdle}"/>
         <property name="maxTotal" value="${redis.maxTotal}"/>
@@ -26,6 +22,10 @@
     <bean id="redisAPI" class="com.pro.umbrella.common.util.RedisAPI">
         <property name="jedisPool" ref="jedisPool"/>
     </bean>
+    <bean id="idGenerator" class="com.pro.umbrella.model.constants.id.SnowflakeIDGenerator" init-method="init">
+        <property name="workerIDMeta" value="${idgenerator.workerIDMeta}"/>
+    </bean>
+    <!-- 以下是AsyncHttpClient默认值，请各项目根据自身情况，适度调整 -->
     <!--<bean id="ahcHttpClientConfig" class="com.pro.umbrella.fd.wclient.http.ahc.AHCHttpClient.Builder"-->
     <!--p:maxConnections="220"-->
     <!--p:maxConnectionsPerHost="200"-->

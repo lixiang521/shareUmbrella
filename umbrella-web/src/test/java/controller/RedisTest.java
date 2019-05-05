@@ -25,6 +25,7 @@ public class RedisTest {
     public void get(){
         System.out.println(redisAPI.get("a"));
         System.out.println(redisAPI.get("b"));
+        System.out.println(redisAPI.get("1037553415"));
 
     }
     @Test
