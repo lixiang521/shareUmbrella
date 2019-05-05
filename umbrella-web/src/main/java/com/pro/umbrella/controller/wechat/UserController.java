@@ -23,13 +23,11 @@ public class UserController {
 
     @RequestMapping("/register")
     public JsonResult register(@RequestBody UserRegisterReq req) {
-        userService.register(req);
-        return JsonResult.success(null);
+        return JsonResult.success(userService.register(req));
     }
 
     @RequestMapping("/signin")
     public JsonResult signin(@RequestBody UserRegisterReq req) {
-        userService.signin(req);
-        return JsonResult.success(null);
+        return JsonResult.success(userService.signin(req));
     }
 }

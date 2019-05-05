@@ -5,6 +5,7 @@ import com.pro.umbrella.common.util.WAssert;
 import com.pro.umbrella.dao.UserMapper;
 import com.pro.umbrella.model.pojo.User;
 import com.pro.umbrella.model.pojo.UserExample;
+import com.pro.umbrella.model.ro.UserInfoResp;
 import com.pro.umbrella.model.ro.UserRegisterReq;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -92,16 +93,18 @@ public class UserService {
         userMapper.updateByPrimaryKeySelective(user);
     }
 
-    public void register(UserRegisterReq req) {
+    public UserInfoResp register(UserRegisterReq req) {
         String phone = getPhoneCode(req.getPhone());
         WAssert.isTrue(!havePhone(phone), "手机号已注册");
         Integer id = add(getPhoneCode(req.getPhone()), getPassWord(req.getPassword()));
         editUid(id);
+        return new UserInfoResp(Long.parseLong(id.toString()),req.getPhone());
     }
-    public void signin(UserRegisterReq req) {
+    public UserInfoResp signin(UserRegisterReq req) {
         String phone = getPhoneCode(req.getPhone());
         User user = WAssert.notNull(queryByPhone(phone), "该用户不存在");
         WAssert.isTrue(user.getPassword().equals(CryptoUtils.encodeMD5(req.getPassword())),"密码错误");
+        return new UserInfoResp(user.getUid(),getRealPhone(user.getTelNumber()));
     }
 
     public User queryUserByUid(long uid) {

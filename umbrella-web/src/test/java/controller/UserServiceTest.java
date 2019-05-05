@@ -26,10 +26,10 @@ public class UserServiceTest {
     @Test
     public void register(){
         UserRegisterReq userRegisterReq = new UserRegisterReq();
-        userRegisterReq.setPhone("17624005285");
+        userRegisterReq.setPhone("17624005186");
         userRegisterReq.setPassword("123456");
         System.out.println(JsonUtil.toJson(userRegisterReq));
-        userService.register(userRegisterReq);
+        System.out.println(userService.register(userRegisterReq));
     }
     @Test
     public void signin(){
@@ -37,6 +37,6 @@ public class UserServiceTest {
         userRegisterReq.setPhone("17624005287");
         userRegisterReq.setPassword("123456");
         System.out.println(JsonUtil.toJson(userRegisterReq));
-        userService.signin(userRegisterReq);
+        System.out.println(JsonUtil.toJson(userService.signin(userRegisterReq)));
     }
 }
