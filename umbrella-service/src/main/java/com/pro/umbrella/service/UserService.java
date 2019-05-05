@@ -96,14 +96,16 @@ public class UserService {
     public UserInfoResp register(UserRegisterReq req) {
         String phone = getPhoneCode(req.getPhone());
         WAssert.isTrue(!havePhone(phone), "手机号已注册");
-        Integer id = add(getPhoneCode(req.getPhone()), getPassWord(req.getPassword()));
+//        Integer id = add(getPhoneCode(req.getPhone()), getPassWord(req.getPassword()));
+        Integer id = add(getPhoneCode(req.getPhone()),req.getPassword());
         editUid(id);
         return new UserInfoResp(Long.parseLong(id.toString()),req.getPhone());
     }
     public UserInfoResp signin(UserRegisterReq req) {
         String phone = getPhoneCode(req.getPhone());
         User user = WAssert.notNull(queryByPhone(phone), "该用户不存在");
-        WAssert.isTrue(user.getPassword().equals(CryptoUtils.encodeMD5(req.getPassword())),"密码错误");
+//        WAssert.isTrue(user.getPassword().equals(CryptoUtils.encodeMD5(req.getPassword())),"密码错误");
+        WAssert.isTrue(user.getPassword().equals(req.getPassword()),"密码错误");
         return new UserInfoResp(user.getUid(),getRealPhone(user.getTelNumber()));
     }
 
