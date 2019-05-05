@@ -26,7 +26,7 @@ public class UserServiceTest {
     @Test
     public void register(){
         UserRegisterReq userRegisterReq = new UserRegisterReq();
-        userRegisterReq.setPhone("17624005287");
+        userRegisterReq.setPhone("17624005285");
         userRegisterReq.setPassword("123456");
         System.out.println(JsonUtil.toJson(userRegisterReq));
         userService.register(userRegisterReq);

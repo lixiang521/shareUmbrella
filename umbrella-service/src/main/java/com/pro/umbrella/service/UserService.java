@@ -89,7 +89,7 @@ public class UserService {
         User user = new User();
         user.setId(id);
         user.setUid(Long.parseLong(id.toString()));
-        userMapper.updateByPrimaryKey(user);
+        userMapper.updateByPrimaryKeySelective(user);
     }
 
     public void register(UserRegisterReq req) {
