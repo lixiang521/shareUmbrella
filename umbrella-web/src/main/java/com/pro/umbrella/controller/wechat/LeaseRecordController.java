@@ -32,9 +32,7 @@ public class LeaseRecordController {
 
     @RequestMapping("/start/trade")
     public JsonResult startTrade(@RequestParam("uid") Long uid, @RequestParam("url") String url) {
-        leaseRecordService.createTrade(uid, url);
-
-        return JsonResult.success(null);
+        return JsonResult.success(leaseRecordService.createTrade(uid, url));
     }
 
     /**
