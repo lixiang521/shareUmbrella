@@ -31,7 +31,7 @@ public class CallbackController {
      * @param
      * @return
      */
-    @RequestMapping(value = "/tradeflow/payresult", method = RequestMethod.POST)
+    @RequestMapping(value = "/tradeflow/payresult")
     public CallbackResp tradePayCallback(@RequestParam("payNumber") Long payNumber) {
 
         return CallbackResp.success(tradeFlowService.paySuccess(payNumber));
