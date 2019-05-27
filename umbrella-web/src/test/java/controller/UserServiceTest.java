@@ -31,6 +31,21 @@ public class UserServiceTest {
         System.out.println(JsonUtil.toJson(userRegisterReq));
         System.out.println(userService.register(userRegisterReq));
     }
+
+
+    @Test
+    public void chongzhi(){
+        System.out.println(userService.chongzhi(1l,100));
+    }
+    @Test
+    public void changePWD(){
+        System.out.println(userService.changePWD(1l,"654321"));
+    }
+
+    @Test
+    public void detail(){
+        System.out.println(JsonUtil.toJson(userService.queryByUid(1l)));
+    }
     @Test
     public void signin(){
         UserRegisterReq userRegisterReq = new UserRegisterReq();

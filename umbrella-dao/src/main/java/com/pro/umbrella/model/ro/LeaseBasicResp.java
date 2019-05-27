@@ -10,8 +10,8 @@ import lombok.Data;
 public class LeaseBasicResp extends BaseBean {
     private static final long serialVersionUID = -5215902919558043469L;
     private String leaseNumber;
-    private String umbrellaCabinetNumber;
-    private byte cabinetStatus;
-    private byte tradeState;
-    private String payType;
+//    private String umbrellaCabinetNumber;
+//    private byte cabinetStatus;
+//    private byte tradeState;
+    private long uid;
 }

@@ -30,21 +30,26 @@ public class LeaseRecordController {
         return JsonResult.success(leaseRecordService.haveByUid(uid));
     }
 
+    /**
+     * 创建订单
+     * @param uid
+     * @param url
+     * @return
+     */
     @RequestMapping("/start/trade")
     public JsonResult startTrade(@RequestParam("uid") Long uid, @RequestParam("url") String url) {
         return JsonResult.success(leaseRecordService.createTrade(uid, url));
     }
 
     /**
-     * 开始租赁，出伞
+     * 支付
      *
      * @param
      * @return
      */
-    @RequestMapping(value = "/start/lease")
+    @RequestMapping(value = "/pay")
     public JsonResult createLease(@RequestBody StartLeaseReq startLeaseReq) {
-        return JsonResult.success(leaseRecordService.startLeaseV2(startLeaseReq.getLeaseNumber(),
-                startLeaseReq.getRetryReson()));
+        return JsonResult.success(leaseRecordService.startLeaseV2(startLeaseReq.getLeaseNumber(),startLeaseReq.getUid()));
     }
 
     @RequestMapping(value = "/end/lease")
@@ -62,6 +67,16 @@ public class LeaseRecordController {
     @RequestMapping("/detail")
     public JsonResult<LeaseDetailResp> detail(@RequestParam("leaseNumber") Long leaseNumber) {
         return JsonResult.success(leaseRecordService.detail(leaseNumber));
+    }
+
+    /**
+     * 用户订单列表
+     * @param leaseNumber
+     * @return
+     */
+    @RequestMapping("/list")
+    public JsonResult list(@RequestParam("leaseNumber") Long leaseNumber) {
+        return JsonResult.success(leaseRecordService.listByUid(leaseNumber));
     }
 
 }

@@ -80,10 +80,10 @@ public class LeaseRecordControllerTest {
     @Test
     public void start() {
         StartLeaseReq startLeaseReq = new StartLeaseReq();
-        startLeaseReq.setLeaseNumber(323352688144556032l);
-        startLeaseReq.setRetryReson((byte)0);
+        startLeaseReq.setLeaseNumber(323399718364123136l);
+        startLeaseReq.setUid(1l);
         System.out.println(JsonUtil.toJson(startLeaseReq));
-        System.out.println(JsonUtil.toJson(leaseRecordService.startLeaseV2(startLeaseReq.getLeaseNumber(), startLeaseReq.getRetryReson())));
+        System.out.println(JsonUtil.toJson(leaseRecordService.startLeaseV2(startLeaseReq.getLeaseNumber(), startLeaseReq.getUid())));
     }
 
     @Test
@@ -119,5 +119,9 @@ public class LeaseRecordControllerTest {
     @Test
     public void details(){
         System.out.println(JsonUtil.toJson(leaseRecordService.detail(323352688144556032l)));
+    }
+    @Test
+    public void list1(){
+        System.out.println(JsonUtil.toJson(leaseRecordService.listByUid(1l)));
     }
 }

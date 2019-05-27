@@ -29,6 +29,8 @@ public class User {
 
     private Date updateTime;
 
+    private Long account;
+
     public Integer getId() {
         return id;
     }
@@ -131,5 +133,13 @@ public class User {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Long getAccount() {
+        return account;
+    }
+
+    public void setAccount(Long account) {
+        this.account = account;
     }
 }

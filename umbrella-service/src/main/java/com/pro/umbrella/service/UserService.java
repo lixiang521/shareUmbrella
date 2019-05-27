@@ -31,6 +31,9 @@ public class UserService {
         userExample.createCriteria().andTelNumberEqualTo(phone);
         return userMapper.selectByExample(userExample).size() > 0 ? true : false;
     }
+    public void updateByUid(User user){
+        userMapper.updateByPrimaryKeySelective(user);
+    }
 
     public User queryByPhone(String phone){
         UserExample userExample = new UserExample();
@@ -108,6 +111,20 @@ public class UserService {
         WAssert.isTrue(user.getPassword().equals(req.getPassword()),"密码错误");
         return new UserInfoResp(user.getUid(),getRealPhone(user.getTelNumber()));
     }
+    public long chongzhi(long uid,long money){
+        User user = queryByUid(uid);
+        user.setAccount(user.getAccount()+money);
+        userMapper.updateByPrimaryKey(user);
+        return uid;
+    }
+
+    public long changePWD(long uid,String pwd){
+        User user = queryByUid(uid);
+        user.setPassword(pwd);
+        userMapper.updateByPrimaryKey(user);
+        return uid;
+    }
+
 
     public User queryUserByUid(long uid) {
         UserExample userExample = new UserExample();

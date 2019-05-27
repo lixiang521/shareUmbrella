@@ -70,28 +70,28 @@ public class LeaseRecordService {
         String umbrellaCabinetNumber = matcher.group(1);
         WAssert.hasLength(umbrellaCabinetNumber, "雨伞柜编号为空");
         UmbrellaCabinet umbrellaCabinet = umbrellaCabinetService.queryByCabinetId(umbrellaCabinetNumber);
-        WAssert.isTrue(umbrellaCabinet != null, "雨伞柜编号不存在");
-        WAssert.isTrue(
-                TransferStateEnums.UmbrellaCabinetTransferState.waitOrOnline(umbrellaCabinet.getTransState()),
-                "流转状态错误");
-        WAssert.isTrue(umbrellaCabinet.getOnlineState().equals(DeviceEnums.DeviceStatus.ONLINE.status),
-                "雨伞柜不在线");
+//        WAssert.isTrue(umbrellaCabinet != null, "雨伞柜编号不存在");
+//        WAssert.isTrue(
+//                TransferStateEnums.UmbrellaCabinetTransferState.waitOrOnline(umbrellaCabinet.getTransState()),
+//                "流转状态错误");
+//        WAssert.isTrue(umbrellaCabinet.getOnlineState().equals(DeviceEnums.DeviceStatus.ONLINE.status),
+//                "雨伞柜不在线");
 
-        BigDecimal deposit = NumberUtils.createBigDecimal(JsonUtil
-                .of(globalConfigService.queryByName(Constants.UMBRELLA_NEW_CHARGE).getContext(), ChargeDetail.class).getDeposit());
+//        BigDecimal deposit = NumberUtils.createBigDecimal(JsonUtil
+//                .of(globalConfigService.queryByName(Constants.UMBRELLA_NEW_CHARGE).getContext(), ChargeDetail.class).getDeposit());
 
         // 创建租赁订单
         LeaseRecord leaseRecord = newLease(umbrellaCabinet, uid);
 
         // 添加检查，查看雨伞是否可以借用
-        WAssert.isTrue(leaseRecord.getLeaseState() != LeaseStateEnums.LeaseState.OVER_TIME, "租借已超时");
-
-        TradeFlow waitFlow = tradeFlowService.createTradeFlow(TypeStateEnums.OpUser.SYSTEM, uid,
-                leaseRecord.getLeaseNumber(), deposit);
+//        WAssert.isTrue(leaseRecord.getLeaseState() != LeaseStateEnums.LeaseState.OVER_TIME, "租借已超时");
+//
+//        TradeFlow waitFlow = tradeFlowService.createTradeFlow(TypeStateEnums.OpUser.SYSTEM, uid,
+//                leaseRecord.getLeaseNumber(), deposit);
         LeasePayResp leasePayResp = new LeasePayResp();
-        leasePayResp.setLeaseNumber(waitFlow.getLeaseNumber().toString());
-        leasePayResp.setPayAmount(waitFlow.getAmount().toString());
-        leasePayResp.setPayNo(waitFlow.getTradeNumber());
+        leasePayResp.setLeaseNumber(leaseRecord.getLeaseNumber().toString());
+//        leasePayResp.setPayAmount(waitFlow.getAmount().toString());
+//        leasePayResp.setPayNo(waitFlow.getTradeNumber());
         leasePayResp.setUid(uid);
         return leasePayResp;
     }
@@ -291,92 +291,99 @@ public class LeaseRecordService {
     }
 
     @Transactional
-    public LeaseBasicResp startLeaseV2(long leaseNumber, byte retryReason) {
+    public LeaseBasicResp startLeaseV2(long leaseNumber,long uid) {
         LeaseBasicResp leaseBasicResp = new LeaseBasicResp();
         LeaseRecord leaseRecord = queryDetail(leaseNumber);
         leaseBasicResp.setLeaseNumber(leaseRecord.getLeaseNumber().toString());
-        leaseBasicResp.setUmbrellaCabinetNumber(leaseRecord.getCabinetLendNumber());
-
-        /** 针对同一订单重复下发的情况 */
-        if (ObjectUtils.equals(leaseRecord.getLeaseState(), LeaseStateEnums.LeaseState.LEASING)) {
-            return leaseBasicResp;
-        }
-
-        // 订单支付状态校验
-        if (Objects.equals(leaseRecord.getTradeState(), LeaseStateEnums.LeaseTradeState.REFUNDING)
-                || Objects.equals(leaseRecord.getTradeState(), LeaseStateEnums.LeaseTradeState.REFUND)) {
-            leaseBasicResp.setTradeState(leaseRecord.getTradeState());
-            leaseBasicResp.setPayType(leaseRecord.getPayMethod());
-            return leaseBasicResp;
-        }
-
-        TradeFlow tradeFlow = tradeFlowService.queryTradeByLeaseAndStates(leaseNumber, ImmutableList.of(
-                LeaseStateEnums.TradeFlowState.PAYED, LeaseStateEnums.TradeFlowState.AUTH_FREE_SUCC));
-
-        WAssert.notNull(tradeFlow, "未收到支付回调");
-
-        // 看完操作介绍后、取伞前检查 LOG
-        leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_CHECK_FROM_GUIDE,
-                leaseRecord.getUid(), leaseRecord.getLeaseNumber());
-
-        UmbrellaCabinet cabinet = WAssert.notNull(
-                umbrellaCabinetService.queryByCabinetId(leaseRecord.getCabinetLendNumber()), "雨伞柜编号不存在");
-
-        if (!umbrellaCabinetService.isOnline(cabinet.getUmbrellaCabinetNumber())) {
-            leaseBasicResp.setCabinetStatus(TypeStateEnums.CabinetStatus.OFFLINE);
-
-            if (Objects.equals(TypeStateEnums.OperateStatus.NORMAL, retryReason)) {
-                // 检查时发现伞柜不在线 LOG
-                leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_CHECK_OFFLINE,
-                        leaseRecord.getUid(), leaseRecord.getLeaseNumber());
-            } else {
-                // 伞柜不在线重试 LOG
-                leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_OFFLINE_RETRY,
-                        leaseRecord.getUid(), leaseRecord.getLeaseNumber());
-            }
-
-            return leaseBasicResp;
-        }
-
-        // 如果伞柜正在出伞，返回错误
-        if (Objects.equals(TypeStateEnums.OccupyState.OCCUPYING, cabinet.getOccupyState())) {
-            // 伞柜占用中
-            leaseBasicResp.setCabinetStatus(TypeStateEnums.CabinetStatus.OCCUPYING);
-            if (Objects.equals(TypeStateEnums.OperateStatus.NORMAL, retryReason)) {
-                // 检查时发现伞柜被占用
-                leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_CHECK_LOCKED,
-                        leaseRecord.getUid(), leaseRecord.getLeaseNumber());
-            } else {
-                // 伞柜占用重试
-                leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_LOCKED_RETRY,
-                        leaseRecord.getUid(), leaseRecord.getLeaseNumber());
-            }
-            return leaseBasicResp;
-        }
-
-        // TODO 更新伞柜状态失败的情况，这里没有处理
-        // 更新雨伞柜使用状态
-        umbrellaCabinetService.updateUmbrellaCabinetOccupyState(leaseRecord.getCabinetLendNumber(),
-                TypeStateEnums.OccupyState.NOT_OCCUPY, TypeStateEnums.OccupyState.OCCUPYING);
-
+        leaseBasicResp.setUid(uid);
+//        leaseBasicResp.setUmbrellaCabinetNumber(leaseRecord.getCabinetLendNumber());
+        User user = userService.queryByUid(uid);
+        WAssert.isTrue(user.getAccount()>6,"余额不足");
+        user.setAccount(user.getAccount()-6);
+        userService.updateByUid(user);
         leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.LEASING);
+        leaseRecord.setTradeState(LeaseStateEnums.LeaseTradeState.PAYED);
+        leaseRecordMapper.updateByPrimaryKey(leaseRecord);
+//        /** 针对同一订单重复下发的情况 */
+//        if (ObjectUtils.equals(leaseRecord.getLeaseState(), LeaseStateEnums.LeaseState.LEASING)) {
+//            return leaseBasicResp;
+//        }
+
+//        // 订单支付状态校验
+//        if (Objects.equals(leaseRecord.getTradeState(), LeaseStateEnums.LeaseTradeState.REFUNDING)
+//                || Objects.equals(leaseRecord.getTradeState(), LeaseStateEnums.LeaseTradeState.REFUND)) {
+//            leaseBasicResp.setTradeState(leaseRecord.getTradeState());
+//            leaseBasicResp.setPayType(leaseRecord.getPayMethod());
+//            return leaseBasicResp;
+//        }
+
+//        TradeFlow tradeFlow = tradeFlowService.queryTradeByLeaseAndStates(leaseNumber, ImmutableList.of(
+//                LeaseStateEnums.TradeFlowState.PAYED, LeaseStateEnums.TradeFlowState.AUTH_FREE_SUCC));
+//
+//        WAssert.notNull(tradeFlow, "未收到支付回调");
+//
+//        // 看完操作介绍后、取伞前检查 LOG
+//        leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_CHECK_FROM_GUIDE,
+//                leaseRecord.getUid(), leaseRecord.getLeaseNumber());
+//
+//        UmbrellaCabinet cabinet = WAssert.notNull(
+//                umbrellaCabinetService.queryByCabinetId(leaseRecord.getCabinetLendNumber()), "雨伞柜编号不存在");
+//
+//        if (!umbrellaCabinetService.isOnline(cabinet.getUmbrellaCabinetNumber())) {
+//            leaseBasicResp.setCabinetStatus(TypeStateEnums.CabinetStatus.OFFLINE);
+
+//            if (Objects.equals(TypeStateEnums.OperateStatus.NORMAL, retryReason)) {
+//                // 检查时发现伞柜不在线 LOG
+//                leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_CHECK_OFFLINE,
+//                        leaseRecord.getUid(), leaseRecord.getLeaseNumber());
+//            } else {
+//                // 伞柜不在线重试 LOG
+//                leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_OFFLINE_RETRY,
+//                        leaseRecord.getUid(), leaseRecord.getLeaseNumber());
+//            }
+//
+//            return leaseBasicResp;
+//        }
+//
+//        // 如果伞柜正在出伞，返回错误
+//        if (Objects.equals(TypeStateEnums.OccupyState.OCCUPYING, cabinet.getOccupyState())) {
+//            // 伞柜占用中
+//            leaseBasicResp.setCabinetStatus(TypeStateEnums.CabinetStatus.OCCUPYING);
+//            if (Objects.equals(TypeStateEnums.OperateStatus.NORMAL, retryReason)) {
+//                // 检查时发现伞柜被占用
+//                leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_CHECK_LOCKED,
+//                        leaseRecord.getUid(), leaseRecord.getLeaseNumber());
+//            } else {
+//                // 伞柜占用重试
+//                leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_LOCKED_RETRY,
+//                        leaseRecord.getUid(), leaseRecord.getLeaseNumber());
+//            }
+//            return leaseBasicResp;
+//        }
+//
+//        // TODO 更新伞柜状态失败的情况，这里没有处理
+//        // 更新雨伞柜使用状态
+//        umbrellaCabinetService.updateUmbrellaCabinetOccupyState(leaseRecord.getCabinetLendNumber(),
+//                TypeStateEnums.OccupyState.NOT_OCCUPY, TypeStateEnums.OccupyState.OCCUPYING);
+//
+//        leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.LEASING);
 
         // 更新租赁状态为预租赁
-        if (Objects.equals(TypeStateEnums.OperateStatus.NORMAL, retryReason)) {
-            int result = updateByLeaseNumberAndLeaseState(leaseRecord, Lists
-                    .newArrayList(LeaseStateEnums.LeaseState.NOT_START, LeaseStateEnums.LeaseState.OVER_TIME));
-            System.out.println("update result is {}" + result);
-            WAssert.isTrue(result > 0, "状态更新失败");
-        } else {
-            // 重试需重置订单状态
-            LeaseRecord leaseRetryRecord = queryDetail(leaseNumber);
-            leaseRetryRecord.setLeaseState(LeaseStateEnums.LeaseState.LEASING);
-            updateLease(TypeStateEnums.OpUser.UMBRELLA, leaseRetryRecord,
-                    Lists.newArrayList(LeaseStateEnums.LeaseState.NOT_START,
-                            LeaseStateEnums.LeaseState.LEASING, LeaseStateEnums.LeaseState.LEASE_FAIL,
-                            LeaseStateEnums.LeaseState.OVER_TIME,
-                            LeaseStateEnums.LeaseState.UMBRELLA_NOT_EXIST));
-        }
+//        if (Objects.equals(TypeStateEnums.OperateStatus.NORMAL, retryReason)) {
+//            int result = updateByLeaseNumberAndLeaseState(leaseRecord, Lists
+//                    .newArrayList(LeaseStateEnums.LeaseState.NOT_START, LeaseStateEnums.LeaseState.OVER_TIME));
+//            System.out.println("update result is {}" + result);
+//            WAssert.isTrue(result > 0, "状态更新失败");
+//        } else {
+//            // 重试需重置订单状态
+//            LeaseRecord leaseRetryRecord = queryDetail(leaseNumber);
+//            leaseRetryRecord.setLeaseState(LeaseStateEnums.LeaseState.LEASING);
+////            updateLease(TypeStateEnums.OpUser.UMBRELLA, leaseRetryRecord,
+//                    Lists.newArrayList(LeaseStateEnums.LeaseState.NOT_START,
+//                            LeaseStateEnums.LeaseState.LEASING, LeaseStateEnums.LeaseState.LEASE_FAIL,
+//                            LeaseStateEnums.LeaseState.OVER_TIME,
+//                            LeaseStateEnums.LeaseState.UMBRELLA_NOT_EXIST));
+//        }
 
         // 出伞
         // 下发雨伞弹出指令
@@ -400,11 +407,11 @@ public class LeaseRecordService {
 //            System.out.println("下发雨伞柜弹出指令，umbrellaCabinetNumber={}", leaseRecord.getCabinetLendNumber());
 //        } catch (Exception e) {
 //            LOGGER.error("雨伞柜{}指令下发异常", leaseRecord.getCabinetLendNumber());
-//        }
-        UmbrellaCabinet umbrellaCabinet = new UmbrellaCabinet();
-        umbrellaCabinet.setUmbrellaCabinetNumber(cabinet.getUmbrellaCabinetNumber());
-        umbrellaCabinet.setOccupyState(TypeStateEnums.CabinetStatus.NORMAL);
-        umbrellaCabinetService.updateByCabinetId(umbrellaCabinet);
+////        }
+//        UmbrellaCabinet umbrellaCabinet = new UmbrellaCabinet();
+//        umbrellaCabinet.setUmbrellaCabinetNumber(cabinet.getUmbrellaCabinetNumber());
+//        umbrellaCabinet.setOccupyState(TypeStateEnums.CabinetStatus.NORMAL);
+//        umbrellaCabinetService.updateByCabinetId(umbrellaCabinet);
 //
 //        Message message = MessageBuilder.create().withTopic(wmqLeaseSnapshot)
 //                .withMessageId(UUID.randomUUID().toString())
@@ -453,19 +460,19 @@ public class LeaseRecordService {
             leaseRecord.setAmount(leaseRecord.getTotalAmount().subtract(leaseRecord.getReduceAmount())
                     .min(tradeFlow.getAmount()));
         } else {
-            leaseRecord.setTotalAmount(tradeFlow.getAmount());
-            leaseRecord.setReduceAmount(BigDecimal.ZERO);
-            leaseRecord.setAmount(tradeFlow.getAmount());
-            if (endState == TypeStateEnums.EndType.EXCEPT) {
-                leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.DISCARD_END);
-            } else if (endState == TypeStateEnums.EndType.SELL) {
-                leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.SELL_END);
-                List<String> umbrellaNumbers = Collections.singletonList(leaseRecord.getUmbrellaNumber());
-                umbrellaService.updateUmbrellaTransState(umbrellaNumbers,
-                        TransferStateEnums.UmbrellaTransferState.SELLED_BUY);
-            } else {
-                leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.OVER_END);
-            }
+//            leaseRecord.setTotalAmount(tradeFlow.getAmount());
+//            leaseRecord.setReduceAmount(BigDecimal.ZERO);
+//            leaseRecord.setAmount(tradeFlow.getAmount());
+//            if (endState == TypeStateEnums.EndType.EXCEPT) {
+//                leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.DISCARD_END);
+//            } else if (endState == TypeStateEnums.EndType.SELL) {
+//                leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.SELL_END);
+//                List<String> umbrellaNumbers = Collections.singletonList(leaseRecord.getUmbrellaNumber());
+//                umbrellaService.updateUmbrellaTransState(umbrellaNumbers,
+//                        TransferStateEnums.UmbrellaTransferState.SELLED_BUY);
+//            } else {
+//                leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.OVER_END);
+//            }
         }
 
         /**
@@ -597,6 +604,12 @@ public class LeaseRecordService {
         tradeFlowService.refundTradeFlow(operator, tradeFlow.getTradeNumber(), MoneyUtils.of(refundAmount), refundType);
 
     }
+    public List<LeaseRecord> listByUid(long uid){
+        LeaseRecordExample leaseRecordExample = new LeaseRecordExample();
+        leaseRecordExample.createCriteria().andUidEqualTo(uid);
+        List<LeaseRecord> leaseRecords = leaseRecordMapper.selectByExample(leaseRecordExample);
+        return leaseRecords;
+    }
     public LeaseDetailResp detail(Long leaseNumber) {
                 LeaseRecord leaseRecord = WAssert.notNull(queryDetail(leaseNumber), "行程不存在");
                 Date endTime = leaseRecord.getEndTime().compareTo(leaseRecord.getStartTime()) >= 0
@@ -615,12 +628,12 @@ public class LeaseRecordService {
                 leaseDetailResp.setEndTime(DateFormatUtils.format4y2M2d2h2m2s(endTime));
 
                 /** 租赁结束前根据时间计算费用 */
-                if (LeaseStateEnums.LeaseState.endContains(leaseRecord.getLeaseState())) {
-                    leaseDetailResp.setLeaseCost(costService.getLeaseCost(leaseRecord));
-                } else {
-                    leaseDetailResp
-                            .setLeaseCost(costService.leaseRecordCost(leaseRecord, new Date()));
-                }
+//                if (LeaseStateEnums.LeaseState.endContains(leaseRecord.getLeaseState())) {
+//                    leaseDetailResp.setLeaseCost(costService.getLeaseCost(leaseRecord));
+//                } else {
+//                    leaseDetailResp
+//                            .setLeaseCost(costService.leaseRecordCost(leaseRecord, new Date()));
+//                }
                 return leaseDetailResp;
     }
 

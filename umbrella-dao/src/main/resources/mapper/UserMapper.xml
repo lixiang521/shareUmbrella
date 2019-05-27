@@ -15,6 +15,7 @@
     <result column="tel_number" jdbcType="CHAR" property="telNumber" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="account" jdbcType="DECIMAL" property="account" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uid, total_count, total_time, first_finish_time, last_finish_time, foregift_state,
-    state, name, password, tel_number, create_time, update_time
+    id, uid, total_count, total_time, first_finish_time, last_finish_time, foregift_state, 
+    state, name, password, tel_number, create_time, update_time, account
   </sql>
   <select id="selectByExample" parameterType="com.pro.umbrella.model.pojo.UserExample" resultMap="BaseResultMap">
     select
@@ -93,7 +94,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from user
     where id = #{id,jdbcType=INTEGER}
@@ -112,14 +113,16 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user (uid, total_count, total_time,
-    first_finish_time, last_finish_time, foregift_state,
-    state, name, password, tel_number,
-    create_time, update_time)
-    values (#{uid,jdbcType=BIGINT}, #{totalCount,jdbcType=INTEGER}, #{totalTime,jdbcType=INTEGER},
-    #{firstFinishTime,jdbcType=TIMESTAMP}, #{lastFinishTime,jdbcType=TIMESTAMP}, #{foregiftState,jdbcType=TINYINT},
-    #{state,jdbcType=TINYINT}, #{name,jdbcType=CHAR}, #{password,jdbcType=CHAR}, #{telNumber,jdbcType=CHAR},
-    #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    insert into user (uid, total_count, total_time, 
+      first_finish_time, last_finish_time, foregift_state, 
+      state, name, password, tel_number, 
+      create_time, update_time, account
+      )
+    values (#{uid,jdbcType=BIGINT}, #{totalCount,jdbcType=INTEGER}, #{totalTime,jdbcType=INTEGER}, 
+      #{firstFinishTime,jdbcType=TIMESTAMP}, #{lastFinishTime,jdbcType=TIMESTAMP}, #{foregiftState,jdbcType=TINYINT}, 
+      #{state,jdbcType=TINYINT}, #{name,jdbcType=CHAR}, #{password,jdbcType=CHAR}, #{telNumber,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{account,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pro.umbrella.model.pojo.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -163,6 +166,9 @@
       <if test="updateTime != null">
         update_time,
       </if>
+      <if test="account != null">
+        account,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="uid != null">
@@ -200,6 +206,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -251,6 +260,9 @@
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.account != null">
+        account = #{record.account,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -259,18 +271,19 @@
   <update id="updateByExample" parameterType="map">
     update user
     set id = #{record.id,jdbcType=INTEGER},
-    uid = #{record.uid,jdbcType=BIGINT},
-    total_count = #{record.totalCount,jdbcType=INTEGER},
-    total_time = #{record.totalTime,jdbcType=INTEGER},
-    first_finish_time = #{record.firstFinishTime,jdbcType=TIMESTAMP},
-    last_finish_time = #{record.lastFinishTime,jdbcType=TIMESTAMP},
-    foregift_state = #{record.foregiftState,jdbcType=TINYINT},
-    state = #{record.state,jdbcType=TINYINT},
-    name = #{record.name,jdbcType=CHAR},
-    password = #{record.password,jdbcType=CHAR},
-    tel_number = #{record.telNumber,jdbcType=CHAR},
-    create_time = #{record.createTime,jdbcType=TIMESTAMP},
-    update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      uid = #{record.uid,jdbcType=BIGINT},
+      total_count = #{record.totalCount,jdbcType=INTEGER},
+      total_time = #{record.totalTime,jdbcType=INTEGER},
+      first_finish_time = #{record.firstFinishTime,jdbcType=TIMESTAMP},
+      last_finish_time = #{record.lastFinishTime,jdbcType=TIMESTAMP},
+      foregift_state = #{record.foregiftState,jdbcType=TINYINT},
+      state = #{record.state,jdbcType=TINYINT},
+      name = #{record.name,jdbcType=CHAR},
+      password = #{record.password,jdbcType=CHAR},
+      tel_number = #{record.telNumber,jdbcType=CHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      account = #{record.account,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -314,6 +327,9 @@
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="account != null">
+        account = #{account,jdbcType=DECIMAL},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -330,7 +346,8 @@
       password = #{password,jdbcType=CHAR},
       tel_number = #{telNumber,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      account = #{account,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.pro.umbrella.model.pojo.UserExample" resultMap="BaseResultMap">

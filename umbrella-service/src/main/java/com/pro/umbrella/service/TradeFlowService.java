@@ -33,29 +33,29 @@ public class TradeFlowService {
     @Resource
     private TradeRefundService tradeRefundService;
 
-    public TradeFlow createTradeFlow(String operator, long uid, long leaseNumber, BigDecimal amount) {
+//    public TradeFlow createTradeFlow(String operator, long uid, long leaseNumber, BigDecimal amount) {
 
-        LeaseRecord leaseRecord = leaseRecordService.queryDetail(leaseNumber);
+//        LeaseRecord leaseRecord = leaseRecordService.queryDetail(leaseNumber);
+//
+//        TradeFlow waitFlow;
+//        Byte nowState = leaseRecord.getTradeState();
+//        // 行程没有支付过..
+//        if (Objects.equals(nowState, LeaseStateEnums.LeaseTradeState.WAIT_PAY)
+//                || (Objects.equals(nowState, LeaseStateEnums.LeaseTradeState.AUTH_FREE)
+//        )) {
+//            waitFlow = createPreFlowOrder(leaseRecord, operator, amount, uid);
+//        } else {
+//            waitFlow = WAssert
+//                    .notNull(
+//                            queryTradeByLeaseAndStates(leaseNumber,
+//                                    ImmutableList.of(LeaseStateEnums.TradeFlowState.PREPAYING,
+//                                            LeaseStateEnums.TradeFlowState.AUTH_FREE)),
+//                            "租赁交易状态和流水交易状态不符合，请刷新重新查看.");
+//        }
 
-        TradeFlow waitFlow;
-        Byte nowState = leaseRecord.getTradeState();
-        // 行程没有支付过..
-        if (Objects.equals(nowState, LeaseStateEnums.LeaseTradeState.WAIT_PAY)
-                || (Objects.equals(nowState, LeaseStateEnums.LeaseTradeState.AUTH_FREE)
-        )) {
-            waitFlow = createPreFlowOrder(leaseRecord, operator, amount, uid);
-        } else {
-            waitFlow = WAssert
-                    .notNull(
-                            queryTradeByLeaseAndStates(leaseNumber,
-                                    ImmutableList.of(LeaseStateEnums.TradeFlowState.PREPAYING,
-                                            LeaseStateEnums.TradeFlowState.AUTH_FREE)),
-                            "租赁交易状态和流水交易状态不符合，请刷新重新查看.");
-        }
-
-        return waitFlow;
-
-    }
+//        return waitFlow;
+//
+//    }
 
     public TradeFlow createPreFlowOrder(LeaseRecord leaseRecord, String operator, BigDecimal amount, long uid) {
         // 请求支付中心收单.
@@ -71,19 +71,19 @@ public class TradeFlowService {
         TradeFlow trade = createTradeFlow(uid, leaseRecord.getLeaseNumber(), payNo, amount,
                 normal);
 
-        byte leaseTradeState = LeaseStateEnums.LeaseTradeState.PREPAYING;
+//        byte leaseTradeState = LeaseStateEnums.LeaseTradeState.PREPAYING;
         // 押金支付或免押申请中
         leaseRecordService.leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_DEPOSIT_PAY_START, uid,
                 leaseRecord.getLeaseNumber());
         if (!normal) {
-            leaseTradeState = LeaseStateEnums.LeaseTradeState.AUTH_FREE;
+//            leaseTradeState = LeaseStateEnums.LeaseTradeState.AUTH_FREE;
         }
         // 预标记行程开始进入支付流程.
-        boolean updateLease = leaseRecordService.updateLeaseTradeState(leaseRecord.getLeaseNumber(),
-                leaseRecord.getTradeState(), leaseTradeState);
-        WAssert.isTrue(updateLease, "尝试标记租赁开始支付失败~请重试");
-        LeaseRecord leaseRecordNew = leaseRecord.cloneOne();
-        leaseRecordNew.setTradeState(leaseTradeState);
+//        boolean updateLease = leaseRecordService.updateLeaseTradeState(leaseRecord.getLeaseNumber(),
+//                leaseRecord.getTradeState(), leaseTradeState);
+//        WAssert.isTrue(updateLease, "尝试标记租赁开始支付失败~请重试");
+//        LeaseRecord leaseRecordNew = leaseRecord.cloneOne();
+//        leaseRecordNew.setTradeState(leaseTradeState);
         return trade;
     }
 
@@ -137,7 +137,7 @@ public class TradeFlowService {
         byte preTradeState = LeaseStateEnums.TradeFlowState.PREPAYING;
         byte currTradeState = LeaseStateEnums.TradeFlowState.PAYED;
 
-        byte preLeaseTradeState = LeaseStateEnums.LeaseTradeState.PREPAYING;
+//        byte preLeaseTradeState = LeaseStateEnums.LeaseTradeState.PREPAYING;
         byte currLeaseTradeState = LeaseStateEnums.LeaseTradeState.PAYED;
 
         boolean updateTrade = updateState(tradeFlow.getTradeNumber(),
@@ -151,16 +151,16 @@ public class TradeFlowService {
         LeaseRecord leaseRecordNew = leaseRecordOld.cloneOne();
         leaseRecordNew.setTradeState(currLeaseTradeState);
         // 针对异常减免，重置相关字段
-        if (Money.of(leaseRecordNew.getAmount()).isZero()
-                && ObjectUtils.equals(LeaseStateEnums.LeaseState.REDUCE_END, leaseRecordNew.getLeaseState())) {
-            leaseRecordNew
-                    .setReduceAmount(leaseRecordNew.getTotalAmount().subtract(leaseRecordNew.getAmount()));
-            leaseRecordNew.setArchivedAmount(leaseRecordNew.getAmount());
-        }
-        int updateUser = leaseRecordService.updateByLeaseNumberAndLeaseTradeState(leaseRecordNew,
-                Collections.singletonList(preLeaseTradeState));
+//        if (Money.of(leaseRecordNew.getAmount()).isZero()
+//                && ObjectUtils.equals(LeaseStateEnums.LeaseState.REDUCE_END, leaseRecordNew.getLeaseState())) {
+//            leaseRecordNew
+//                    .setReduceAmount(leaseRecordNew.getTotalAmount().subtract(leaseRecordNew.getAmount()));
+//            leaseRecordNew.setArchivedAmount(leaseRecordNew.getAmount());
+//        }
+//        int updateUser = leaseRecordService.updateByLeaseNumberAndLeaseTradeState(leaseRecordNew,
+//                Collections.singletonList(preLeaseTradeState));
         // TODO 这里抛出异常，打算让调用方做什么。不抛出具体的异常信息，后端无法根据不同的异常信息，进行有效处理
-        WAssert.isTrue(updateUser > 0, "更新租赁{}预支付状态失败", tradeFlow.getLeaseNumber());
+//        WAssert.isTrue(updateUser > 0, "更新租赁{}预支付状态失败", tradeFlow.getLeaseNumber());
         return leaseRecordNew.getLeaseNumber();
     }
 
@@ -184,16 +184,16 @@ public class TradeFlowService {
                 || tradeFlow.getState() == LeaseStateEnums.TradeFlowState.PARTREFUND);
         // 默认退全款
         byte preTradeState = LeaseStateEnums.TradeFlowState.REFUNDING;
-        byte preLeaseTradeState = LeaseStateEnums.LeaseTradeState.REFUNDING;
+//        byte preLeaseTradeState = LeaseStateEnums.LeaseTradeState.REFUNDING;
         // 退预付款
         if (refundType == LeaseStateEnums.RefundType.REFUND_PREPAY) {
             preTradeState = LeaseStateEnums.TradeFlowState.PAYING;
-            preLeaseTradeState = LeaseStateEnums.LeaseTradeState.PAYING;
+//            preLeaseTradeState = LeaseStateEnums.LeaseTradeState.PAYING;
         }
         // 部分退款
         if (refundType == LeaseStateEnums.RefundType.REFUND_PART) {
             preTradeState = LeaseStateEnums.TradeFlowState.PARTREFUNDING;
-            preLeaseTradeState = LeaseStateEnums.LeaseTradeState.PARTREFUNDING;
+//            preLeaseTradeState = LeaseStateEnums.LeaseTradeState.PARTREFUNDING;
         }
         // 开始尝试标记退款 默认预付款、部分退款字段为空
         Money refundPrepayAmount = null;
@@ -238,7 +238,7 @@ public class TradeFlowService {
         // 预将租赁设置为部分退款中状态.
         LeaseRecord leaseRecordOld = leaseRecordService.queryDetail(tradeFlow.getLeaseNumber());
         LeaseRecord leaseRecordNew = leaseRecordOld.cloneOne();
-        leaseRecordNew.setTradeState(preLeaseTradeState);
+//        leaseRecordNew.setTradeState(preLeaseTradeState);
         leaseRecordNew.setUpdateTime(new Date());
         Money toReduceFee = Money.of(BigDecimal.ZERO); // 要减掉的租赁费
 
@@ -307,23 +307,23 @@ public class TradeFlowService {
         // 默认全额退款
         byte preState = LeaseStateEnums.TradeFlowState.REFUNDING;
         byte curState = LeaseStateEnums.TradeFlowState.REFUND;
-        byte preLeaseTradeState = LeaseStateEnums.LeaseTradeState.REFUNDING;
-        byte curLeaseTradeState = LeaseStateEnums.LeaseTradeState.REFUND;
+//        byte preLeaseTradeState = LeaseStateEnums.LeaseTradeState.REFUNDING;
+//        byte curLeaseTradeState = LeaseStateEnums.LeaseTradeState.REFUND;
 
         // 退预付款
         if (refundType == LeaseStateEnums.RefundType.REFUND_PREPAY) {
             preState = LeaseStateEnums.TradeFlowState.PAYING;
             curState = LeaseStateEnums.TradeFlowState.PAYED;
-            preLeaseTradeState = LeaseStateEnums.LeaseTradeState.PAYING;
-            curLeaseTradeState = LeaseStateEnums.LeaseTradeState.PAYED;
+//            preLeaseTradeState = LeaseStateEnums.LeaseTradeState.PAYING;
+//            curLeaseTradeState = LeaseStateEnums.LeaseTradeState.PAYED;
         }
 
         // 部分退款
         if (refundType == LeaseStateEnums.RefundType.REFUND_PART) {
             preState = LeaseStateEnums.TradeFlowState.PARTREFUNDING;
             curState = LeaseStateEnums.TradeFlowState.PARTREFUND;
-            preLeaseTradeState = LeaseStateEnums.LeaseTradeState.PARTREFUNDING;
-            curLeaseTradeState = LeaseStateEnums.LeaseTradeState.PARTREFUND;
+//            preLeaseTradeState = LeaseStateEnums.LeaseTradeState.PARTREFUNDING;
+//            curLeaseTradeState = LeaseStateEnums.LeaseTradeState.PARTREFUND;
         }
 
         // 尝试变更支付状态为已退款.
@@ -342,18 +342,17 @@ public class TradeFlowService {
 
         // 部分退款
         if (refundType == LeaseStateEnums.RefundType.REFUND_PART) {
-            tradeRefundService.updateState(tradeFlow.getRefundPartTradeNumber(), curLeaseTradeState, preLeaseTradeState);
+//            tradeRefundService.updateState(tradeFlow.getRefundPartTradeNumber(), curLeaseTradeState, preLeaseTradeState);
         }
 
         TradeFlow tradeFlowNew = tradeFlow.cloneOne();
         tradeFlowNew.setState(curState);
         LeaseRecord leaseRecordOld = leaseRecordService.queryDetail(tradeFlow.getLeaseNumber());
-        boolean updateLease = leaseRecordService.updateLeaseTradeState(tradeFlow.getLeaseNumber(), preLeaseTradeState,
-                curLeaseTradeState);
-        WAssert.isTrue(updateLease, "变更租赁{}状态为预支付／租赁流水退款失败", tradeFlow.getLeaseNumber());
+//        boolean updateLease = leaseRecordServi
+//        WAssert.isTrue(updateLease, "变更租赁{}状态为预支付／租赁流水退款失败", tradeFlow.getLeaseNumber());
 
         LeaseRecord leaseRecordNew = leaseRecordOld.cloneOne();
-        leaseRecordNew.setTradeState(curLeaseTradeState);
+//        leaseRecordNew.setTradeState(curLeaseTradeState);
     }
 
     @Transactional
