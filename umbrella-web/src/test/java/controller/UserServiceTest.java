@@ -19,8 +19,8 @@ public class UserServiceTest {
 
     @Test
     public void phone(){
-         System.out.println(userService.getPhone("MTM5OTgzNTg0MTI="));
-        System.out.println(userService.getRealPhone("MTM5OTgzNTg0MTI="));
+//         System.out.println(userService.getPhone("MTM5OTgzNTg0MTI="));
+//        System.out.println(userService.getRealPhone("MTM5OTgzNTg0MTI="));
 
     }
     @Test

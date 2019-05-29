@@ -48,46 +48,46 @@ public class UserService {
         WAssert.isTrue(1 == userMapper.insertSelective(user), "用户注册失败");
         return user.getId();
     }
-
-    /**
-     * 获取手机号加密后的字符串
-     *
-     * @param str
-     * @return
-     */
-    public String getPhoneCode(String str) {
-        return CryptoUtils.encodeBASE64(str);
-    }
-
-    /**
-     * 获取加密的手机号字符串
-     *
-     * @param str
-     * @return
-     */
-    public String getPhone(String str) {
-        String b = "";
-        try {
-            b = CryptoUtils.decodeBASE64(str);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return b.substring(0, 3) + str.substring(0, 4) + b.substring(7, 11);
-    }
-
-    /**
-     * 获取解密后的真实手机号
-     *
-     * @param str
-     * @return
-     */
-    public String getRealPhone(String str) {
-        return CryptoUtils.decodeBASE64(str);
-    }
-
-    public String getPassWord(String str) {
-        return CryptoUtils.encodeMD5(str);
-    }
+//
+//    /**
+//     * 获取手机号加密后的字符串
+//     *
+//     * @param str
+//     * @return
+//     */
+//    public String getPhoneCode(String str) {
+//        return CryptoUtils.encodeBASE64(str);
+//    }
+//
+//    /**
+//     * 获取加密的手机号字符串
+//     *
+//     * @param str
+//     * @return
+//     */
+//    public String getPhone(String str) {
+//        String b = "";
+//        try {
+//            b = CryptoUtils.decodeBASE64(str);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return b.substring(0, 3) + str.substring(0, 4) + b.substring(7, 11);
+//    }
+//
+//    /**
+//     * 获取解密后的真实手机号
+//     *
+//     * @param str
+//     * @return
+//     */
+//    public String getRealPhone(String str) {
+//        return CryptoUtils.decodeBASE64(str);
+//    }
+//
+//    public String getPassWord(String str) {
+//        return CryptoUtils.encodeMD5(str);
+//    }
 
     private void editUid(Integer id){
         User user = new User();
@@ -97,19 +97,17 @@ public class UserService {
     }
 
     public UserInfoResp register(UserRegisterReq req) {
-        String phone = getPhoneCode(req.getPhone());
-        WAssert.isTrue(!havePhone(phone), "手机号已注册");
+        WAssert.isTrue(!havePhone(req.getPhone()), "手机号已注册");
 //        Integer id = add(getPhoneCode(req.getPhone()), getPassWord(req.getPassword()));
-        Integer id = add(getPhoneCode(req.getPhone()),req.getPassword());
+        Integer id = add(req.getPhone(),req.getPassword());
         editUid(id);
         return new UserInfoResp(Long.parseLong(id.toString()),req.getPhone());
     }
     public UserInfoResp signin(UserRegisterReq req) {
-        String phone = getPhoneCode(req.getPhone());
-        User user = WAssert.notNull(queryByPhone(phone), "该用户不存在");
+        User user = WAssert.notNull(queryByPhone(req.getPhone()), "该用户不存在");
 //        WAssert.isTrue(user.getPassword().equals(CryptoUtils.encodeMD5(req.getPassword())),"密码错误");
         WAssert.isTrue(user.getPassword().equals(req.getPassword()),"密码错误");
-        return new UserInfoResp(user.getUid(),getRealPhone(user.getTelNumber()));
+        return new UserInfoResp(user.getUid(),user.getTelNumber());
     }
     public long chongzhi(long uid,long money){
         User user = queryByUid(uid);

@@ -71,12 +71,12 @@ public class LeaseRecordController {
 
     /**
      * 用户订单列表
-     * @param leaseNumber
+     * @param uid
      * @return
      */
     @RequestMapping("/list")
-    public JsonResult list(@RequestParam("leaseNumber") Long leaseNumber) {
-        return JsonResult.success(leaseRecordService.listByUid(leaseNumber));
+    public JsonResult list(@RequestParam("uid") Long uid) {
+        return JsonResult.success(leaseRecordService.listByUid(uid));
     }
 
 }

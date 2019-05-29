@@ -79,7 +79,7 @@ public class UmbrellaCabinteControllerTest {
 //        req.setCity(list2);
         req.setPage(new PageRequest.Page(10, 1));
         System.out.println(JsonUtil.toJson(req));
-        System.out.println(JsonUtil.toJson(umbrellaCabinetService.queryList(req)));
+        System.out.println(JsonUtil.toJson(umbrellaCabinetService.list(req)));
 
     }
     @Test

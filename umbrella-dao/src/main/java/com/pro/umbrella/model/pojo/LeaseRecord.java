@@ -1,10 +1,12 @@
 package com.pro.umbrella.model.pojo;
 
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
+@Data
 public class LeaseRecord {
     private Integer id;
 
@@ -25,9 +27,9 @@ public class LeaseRecord {
     private String cabinetLendNumber;
 
     private String cabinetBackNumber;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
 
     private String startShopCode;
@@ -62,8 +64,9 @@ public class LeaseRecord {
 
     private BigDecimal archivedAmount;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     private String payMethod;

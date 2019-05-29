@@ -141,7 +141,7 @@ public class LeaseRecordService {
             operationLeasePageResp.setUid(x.getUid().toString());
             User user = userService.queryByUid(x.getUid());
             if (user != null) {
-                operationLeasePageResp.setPhone(userService.getPhone(user.getTelNumber()));
+                operationLeasePageResp.setPhone(user.getTelNumber());
                 operationLeasePageResp.setPhoneCode(user.getTelNumber());
             }
             operationLeasePageResp.setLeaseState(x.getLeaseState().intValue());
@@ -164,10 +164,11 @@ public class LeaseRecordService {
      * @param uid
      * @return
      */
-    public boolean haveByUid(Long uid) {
+    public long haveByUid(Long uid) {
         LeaseRecordExample leaseRecordExample = new LeaseRecordExample();
         leaseRecordExample.createCriteria().andUidEqualTo(uid).andLeaseStateEqualTo(LeaseStateEnums.LeaseState.LEASING);
-        return leaseRecordMapper.selectByExample(leaseRecordExample).size() > 0 ? true : false;
+        LeaseRecord leaseRecord = leaseRecordMapper.selectByExample(leaseRecordExample).stream().findFirst().orElse(null);
+        return leaseRecord.getLeaseNumber();
     }
 
     @Transactional

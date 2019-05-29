@@ -22,4 +22,9 @@ public class FeedBackService  {
         example.createCriteria().andLeaseIdEqualTo(feedback.getLeaseId());
         return feedbackMapper.updateByExampleSelective(feedback, example);
     }
+
+    public long add(Feedback feedback){
+        feedbackMapper.insertSelective(feedback);
+        return feedback.getUid();
+    }
 }

@@ -33,10 +33,10 @@ public class OPLeaseRecordController {
         return JsonResult.success(leaseRecordService.list(req));
     }
 
-    @RequestMapping("/phone")
-    public JsonResult phone(@RequestParam  String phone) {
-        return JsonResult.success(userService.getRealPhone(phone));
-    }
+//    @RequestMapping("/phone")
+//    public JsonResult phone(@RequestParam  String phone) {
+//        return JsonResult.success(userService.getRealPhone(phone));
+//    }
 
     @RequestMapping("/refund")
     public JsonResult update(@RequestBody OperationRefundUpdateReq request) {

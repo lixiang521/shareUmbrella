@@ -41,7 +41,7 @@ public class UmbrellaCabinetController {
      */
     @RequestMapping("/list")
     public JsonResult list(@RequestBody OperationUmbrellaCabinetPageReq req) {
-        return JsonResult.success(umbrellaCabinetService.queryList(req));
+        return JsonResult.success(umbrellaCabinetService.list(req));
     }
 
     /**

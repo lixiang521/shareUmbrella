@@ -22,10 +22,10 @@ public class OperationUmbrellaCabinetPageReq extends PageRequest {
     private List<String>  hardVers; // 硬件版本号
     private List<String>  scene; // 场景
     private String deviceId; // 设备ID
-    private Integer minCsq; // 最小信号强度
-    private Integer maxCsq; // 最大信号强度
-    private Double minVbat;// 最小电量
-    private Double maxVbat;// 最大电量
+    private String minCsq; // 最小信号强度
+    private String maxCsq; // 最大信号强度
+    private String minVbat;// 最小电量
+    private String maxVbat;// 最大电量
     private Date minPutDate; // 最小投放日期(毫秒数)
     private Date maxPutDate; // 最大投放日期(毫秒数)
     private Integer isOnline;   //是否在线
