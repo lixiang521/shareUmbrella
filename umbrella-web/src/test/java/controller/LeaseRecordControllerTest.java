@@ -97,9 +97,9 @@ public class LeaseRecordControllerTest {
         endLeaseReq.setLeaseNumber(323352276974706688l);
         endLeaseReq.setUid(1l);
         endLeaseReq.setCabinetId("2037000119");
-        endLeaseReq.setEndState(NORMAL);
+//        endLeaseReq.setEndState(NORMAL);
         System.out.println(JsonUtil.toJson(endLeaseReq));
-        System.out.println(JsonUtil.toJson(leaseRecordService.endLease(endLeaseReq.getUid().toString(), leaseRecordService.queryDetail(endLeaseReq.getLeaseNumber()), endLeaseReq.getCabinetId(), new Date(), endLeaseReq.getEndState())));
+        System.out.println(JsonUtil.toJson(leaseRecordService.endLease(endLeaseReq.getUid().toString(), leaseRecordService.queryDetail(endLeaseReq.getLeaseNumber()), endLeaseReq.getCabinetId(), new Date())));
     }
     @Test
     public void refundSuccess(){
