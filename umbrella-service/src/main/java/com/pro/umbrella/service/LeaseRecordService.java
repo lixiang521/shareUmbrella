@@ -164,7 +164,7 @@ public class LeaseRecordService {
      * @param uid
      * @return
      */
-    public long haveByUid(Long uid) {
+    public Long haveByUid(Long uid) {
         LeaseRecordExample leaseRecordExample = new LeaseRecordExample();
         leaseRecordExample.createCriteria().andUidEqualTo(uid).andLeaseStateEqualTo(LeaseStateEnums.LeaseState.LEASING);
         LeaseRecord leaseRecord = leaseRecordMapper.selectByExample(leaseRecordExample).stream().findFirst().orElse(null);

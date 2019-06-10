@@ -27,7 +27,7 @@ public class LeaseRecordController {
 
     @RequestMapping("/haveLeases")
     public JsonResult haveLeases(@RequestParam("uid") Long uid) {
-        return JsonResult.success(leaseRecordService.haveByUid(uid));
+        return JsonResult.success(leaseRecordService.haveByUid(uid).toString());
     }
 
     /**
