@@ -54,7 +54,7 @@ public class LeaseRecordController {
 
     @RequestMapping(value = "/end/lease")
     public JsonResult endLease(@RequestBody EndLeaseReq endLeaseReq) {
-        return JsonResult.success(leaseRecordService.endLease(endLeaseReq.getUid().toString(), leaseRecordService.queryDetail(endLeaseReq.getLeaseNumber()), endLeaseReq.getCabinetId(), new Date()));
+        return JsonResult.success(leaseRecordService.endLease(endLeaseReq.getUid(),endLeaseReq.getLeaseNumber(), endLeaseReq.getCabinetId()));
     }
 
 

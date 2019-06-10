@@ -433,26 +433,30 @@ public class LeaseRecordService {
 
 
     @Transactional
-    public RefundBasicResp endLease(String operator, LeaseRecord leaseRecord, String umbrellaCabinetNumber, Date time) {
-        System.out.println("结束租赁数据:{}" + JsonUtil.of(leaseRecord));
-
-        // 设置结束时间
-        leaseRecord.setEndTime(time);
-
-        if (umbrellaCabinetNumber != null) {
-            leaseRecord.setCabinetBackNumber(umbrellaCabinetNumber);
-            UmbrellaCabinet umbrellaCabinet = umbrellaCabinetService.queryByCabinetId(umbrellaCabinetNumber);
-            if (umbrellaCabinet != null) {
-                leaseRecord.setEndShopCode(umbrellaCabinet.getShopCode());
-                leaseRecord.setEndShopName(umbrellaCabinet.getShopName());
-                leaseRecord.setEndCity(umbrellaCabinet.getCity());
-            }
-        }
+    public String endLease(Long uid, Long leaseNumber, String umbrellaCabinetNumber) {
+        LeaseRecord leaseRecord = queryDetail(leaseNumber);
         leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.END);
-        // 此处需要在交易流水中查询已经支付或者信用免押的交易流水号
-        TradeFlow tradeFlow = tradeFlowService.queryTradeByLeaseAndStates(leaseRecord.getLeaseNumber(),
-                Lists.newArrayList(LeaseStateEnums.TradeFlowState.PAYED, LeaseStateEnums.TradeFlowState.AUTH_FREE_SUCC));
-        WAssert.isTrue(tradeFlow != null, "未找到交易状态为[已预支付或者免押]的交易流水号，订单号=" + leaseRecord.getLeaseNumber());
+        leaseRecord.setCabinetBackNumber(umbrellaCabinetNumber);
+        leaseRecordMapper.updateByPrimaryKey(leaseRecord);
+//        System.out.println("结束租赁数据:{}" + JsonUtil.of(leaseRecord));
+//
+//        // 设置结束时间
+//        leaseRecord.setEndTime(time);
+//
+//        if (umbrellaCabinetNumber != null) {
+//            leaseRecord.setCabinetBackNumber(umbrellaCabinetNumber);
+//            UmbrellaCabinet umbrellaCabinet = umbrellaCabinetService.queryByCabinetId(umbrellaCabinetNumber);
+//            if (umbrellaCabinet != null) {
+//                leaseRecord.setEndShopCode(umbrellaCabinet.getShopCode());
+//                leaseRecord.setEndShopName(umbrellaCabinet.getShopName());
+//                leaseRecord.setEndCity(umbrellaCabinet.getCity());
+//            }
+//        }
+//        leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.END);
+//        // 此处需要在交易流水中查询已经支付或者信用免押的交易流水号
+//        TradeFlow tradeFlow = tradeFlowService.queryTradeByLeaseAndStates(leaseRecord.getLeaseNumber(),
+//                Lists.newArrayList(LeaseStateEnums.TradeFlowState.PAYED, LeaseStateEnums.TradeFlowState.AUTH_FREE_SUCC));
+//        WAssert.isTrue(tradeFlow != null, "未找到交易状态为[已预支付或者免押]的交易流水号，订单号=" + leaseRecord.getLeaseNumber());
 //        if (endState == TypeStateEnums.EndType.NORMAL) {
 //            LeaseCost leaseCost = costService.leaseRecordCost(leaseRecord, time);
 //            leaseRecord.setTotalAmount(leaseCost.getTotalAmount());
@@ -474,37 +478,37 @@ public class LeaseRecordService {
 //                leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.OVER_END);
 //            }
 //        }
-
-        /**
-         * 更新租赁信息
-         */
-        leaseRecord.setUpdateTime(new Date());
-        leaseRecord.setArchivedAmount(leaseRecord.getAmount());
-        updateLease(operator, leaseRecord, Collections.singletonList(LeaseStateEnums.LeaseState.LEASING));
-
-        /** 更新用户的租赁总次数和总时间 */
-        User user = userService.queryByUid(leaseRecord.getUid());
-        if (user == null) {
-            WAssert.isTrue(true, "租赁uid找不到用户信息");
-        }
-        Date firstFinishTime = null;
-        if (user.getFirstFinishTime() == null || user.getFirstFinishTime().compareTo(Defaults.DATE) == 0) {
-            firstFinishTime = leaseRecord.getEndTime();
-        }
-        userService.updateFinishLease(operator, user, leaseRecord.getUid(),
-                DateFormatUtils.diffSecond(leaseRecord.getStartTime(), leaseRecord.getEndTime()) / 60, 1,
-                firstFinishTime, leaseRecord.getEndTime());
-
-
-        /** 部分退款操作 **/
-        tradeFlowService.refundTradeFlow(TypeStateEnums.OpUser.PAY, tradeFlow.getTradeNumber(),
-                MoneyUtils.of(tradeFlow.getAmount()).minus(MoneyUtils.of(leaseRecord.getAmount())),
-                LeaseStateEnums.RefundType.REFUND_PREPAY);
-
-        RefundBasicResp refundBasicResp = new RefundBasicResp();
-        refundBasicResp.setPayNo(tradeFlow.getTradeNumber());
-        refundBasicResp.setAmount(tradeFlow.getRefundPartAmount());
-        return refundBasicResp;
+//
+//        /**
+//         * 更新租赁信息
+//         */
+//        leaseRecord.setUpdateTime(new Date());
+//        leaseRecord.setArchivedAmount(leaseRecord.getAmount());
+//        updateLease(operator, leaseRecord, Collections.singletonList(LeaseStateEnums.LeaseState.LEASING));
+//
+//        /** 更新用户的租赁总次数和总时间 */
+//        User user = userService.queryByUid(leaseRecord.getUid());
+//        if (user == null) {
+//            WAssert.isTrue(true, "租赁uid找不到用户信息");
+//        }
+//        Date firstFinishTime = null;
+//        if (user.getFirstFinishTime() == null || user.getFirstFinishTime().compareTo(Defaults.DATE) == 0) {
+//            firstFinishTime = leaseRecord.getEndTime();
+//        }
+//        userService.updateFinishLease(operator, user, leaseRecord.getUid(),
+//                DateFormatUtils.diffSecond(leaseRecord.getStartTime(), leaseRecord.getEndTime()) / 60, 1,
+//                firstFinishTime, leaseRecord.getEndTime());
+//
+//
+//        /** 部分退款操作 **/
+//        tradeFlowService.refundTradeFlow(TypeStateEnums.OpUser.PAY, tradeFlow.getTradeNumber(),
+//                MoneyUtils.of(tradeFlow.getAmount()).minus(MoneyUtils.of(leaseRecord.getAmount())),
+//                LeaseStateEnums.RefundType.REFUND_PREPAY);
+//
+//        RefundBasicResp refundBasicResp = new RefundBasicResp();
+//        refundBasicResp.setPayNo(tradeFlow.getTradeNumber());
+//        refundBasicResp.setAmount(tradeFlow.getRefundPartAmount());
+        return uid.toString();
     }
 
     @Transactional
@@ -516,7 +520,7 @@ public class LeaseRecordService {
         LeaseRecord leaseRecord = queryDetail(leaseNumber);
         switch (req.getStatus()) {
             case OperationMethodState.END_LEASE_OPERATION:
-                endLease("operator", leaseNumber);
+//                endLease("operator", leaseNumber);
                 leaseNodeDataCollector(LeaseNodeEnum.WXAPP_UMBRELLA_OPERATE_CLOSED,
                         leaseRecord.getUid(), leaseRecord.getLeaseNumber());
                 break;
@@ -544,21 +548,21 @@ public class LeaseRecordService {
         return message;
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public void endLease(String operator, Long leaseNumber) {
-        LeaseRecord leaseRecord = WAssert.notNull(queryDetail(leaseNumber), "找不到租赁订单");
-        /* 更新雨伞状态为暂存 */
-        byte umbrellaTrans = TransferStateEnums.UmbrellaTransferState.STORAGING;
-        try {
-            umbrellaService.updateUmbrellaInfo(operator, leaseRecord.getUmbrellaNumber(),
-                    leaseRecord.getCabinetLendNumber(), umbrellaTrans);
-        } catch (Throwable e) {
-            System.out.println("结束订单-更新雨伞状态异常,伞柜号{" + leaseRecord.getCabinetLendNumber() + "},雨伞号{}" +
-                    leaseRecord.getUmbrellaNumber());
-        }
-        // 结束租赁
-        endLease(operator, leaseRecord, Constants.DEFAULT_CABINET, new Date());
-    }
+//    @Transactional(rollbackFor = Exception.class)
+//    public void endLease(String operator, Long leaseNumber) {
+//        LeaseRecord leaseRecord = WAssert.notNull(queryDetail(leaseNumber), "找不到租赁订单");
+//        /* 更新雨伞状态为暂存 */
+//        byte umbrellaTrans = TransferStateEnums.UmbrellaTransferState.STORAGING;
+//        try {
+//            umbrellaService.updateUmbrellaInfo(operator, leaseRecord.getUmbrellaNumber(),
+//                    leaseRecord.getCabinetLendNumber(), umbrellaTrans);
+//        } catch (Throwable e) {
+//            System.out.println("结束订单-更新雨伞状态异常,伞柜号{" + leaseRecord.getCabinetLendNumber() + "},雨伞号{}" +
+//                    leaseRecord.getUmbrellaNumber());
+//        }
+//        // 结束租赁
+//        endLease(operator, leaseRecord, Constants.DEFAULT_CABINET, new Date());
+//    }
 
     @Transactional(rollbackFor = Exception.class)
     public void updateRefundLease(String operator, LeaseRecord leaseRecord, double amount) {
