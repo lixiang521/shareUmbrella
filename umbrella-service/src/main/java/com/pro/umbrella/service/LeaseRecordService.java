@@ -433,8 +433,7 @@ public class LeaseRecordService {
 
 
     @Transactional
-    public RefundBasicResp endLease(String operator, LeaseRecord leaseRecord, String umbrellaCabinetNumber, Date time,
-                                    byte endState) {
+    public RefundBasicResp endLease(String operator, LeaseRecord leaseRecord, String umbrellaCabinetNumber, Date time) {
         System.out.println("结束租赁数据:{}" + JsonUtil.of(leaseRecord));
 
         // 设置结束时间
@@ -454,13 +453,13 @@ public class LeaseRecordService {
         TradeFlow tradeFlow = tradeFlowService.queryTradeByLeaseAndStates(leaseRecord.getLeaseNumber(),
                 Lists.newArrayList(LeaseStateEnums.TradeFlowState.PAYED, LeaseStateEnums.TradeFlowState.AUTH_FREE_SUCC));
         WAssert.isTrue(tradeFlow != null, "未找到交易状态为[已预支付或者免押]的交易流水号，订单号=" + leaseRecord.getLeaseNumber());
-        if (endState == TypeStateEnums.EndType.NORMAL) {
-            LeaseCost leaseCost = costService.leaseRecordCost(leaseRecord, time);
-            leaseRecord.setTotalAmount(leaseCost.getTotalAmount());
-            leaseRecord.setReduceAmount(leaseCost.getReduceAmount());
-            leaseRecord.setAmount(leaseRecord.getTotalAmount().subtract(leaseRecord.getReduceAmount())
-                    .min(tradeFlow.getAmount()));
-        } else {
+//        if (endState == TypeStateEnums.EndType.NORMAL) {
+//            LeaseCost leaseCost = costService.leaseRecordCost(leaseRecord, time);
+//            leaseRecord.setTotalAmount(leaseCost.getTotalAmount());
+//            leaseRecord.setReduceAmount(leaseCost.getReduceAmount());
+//            leaseRecord.setAmount(leaseRecord.getTotalAmount().subtract(leaseRecord.getReduceAmount())
+//                    .min(tradeFlow.getAmount()));
+//        } else {
 //            leaseRecord.setTotalAmount(tradeFlow.getAmount());
 //            leaseRecord.setReduceAmount(BigDecimal.ZERO);
 //            leaseRecord.setAmount(tradeFlow.getAmount());
@@ -474,7 +473,7 @@ public class LeaseRecordService {
 //            } else {
 //                leaseRecord.setLeaseState(LeaseStateEnums.LeaseState.OVER_END);
 //            }
-        }
+//        }
 
         /**
          * 更新租赁信息
@@ -558,8 +557,7 @@ public class LeaseRecordService {
                     leaseRecord.getUmbrellaNumber());
         }
         // 结束租赁
-        endLease(operator, leaseRecord, Constants.DEFAULT_CABINET, new Date(),
-                TypeStateEnums.EndType.NORMAL);
+        endLease(operator, leaseRecord, Constants.DEFAULT_CABINET, new Date());
     }
 
     @Transactional(rollbackFor = Exception.class)

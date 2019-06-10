@@ -12,5 +12,4 @@ public class EndLeaseReq extends BaseBean {
     private Long leaseNumber;
     private Long uid;
     private String cabinetId;
-    private Byte endState;
 }
