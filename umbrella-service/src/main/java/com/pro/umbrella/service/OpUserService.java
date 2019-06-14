@@ -38,7 +38,7 @@ public class OpUserService {
         OperationUserExample.Criteria criteria = example.createCriteria();
         if (roleId!=null)
             criteria.andRoleEqualTo(roleId);
-        if (phone!=null)
+        if (phone!=null&&!"".equals(phone))
             criteria.andTelEqualTo(phone);
         return operationUserMapper.selectByExample(example);
 
