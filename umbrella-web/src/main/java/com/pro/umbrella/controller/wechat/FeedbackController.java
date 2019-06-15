@@ -1,7 +1,9 @@
 package com.pro.umbrella.controller.wechat;
 
+import com.pro.umbrella.common.util.WAssert;
 import com.pro.umbrella.model.constants.JsonResult;
 import com.pro.umbrella.model.pojo.Feedback;
+import com.pro.umbrella.model.pojo.User;
 import com.pro.umbrella.model.ro.UserRegisterReq;
 import com.pro.umbrella.service.FeedBackService;
 import com.pro.umbrella.service.UserService;
@@ -22,11 +24,15 @@ import javax.annotation.Resource;
 public class FeedbackController {
     @Resource
     private FeedBackService feedBackService;
+    @Resource
+    private UserService userService;
 
     @RequestMapping("/add")
-    public JsonResult register(@RequestBody Feedback req) {
+    public JsonResult add(@RequestBody Feedback req,@RequestParam("uid")Long uid) {
+        User user = userService.queryByUid(req.getUid());
+        WAssert.notNull(user,"用户不存在");
         //uid content必传，其他选传
-        return JsonResult.success(feedBackService.add(req));
+        return JsonResult.success(feedBackService.add(req,uid));
     }
 
 

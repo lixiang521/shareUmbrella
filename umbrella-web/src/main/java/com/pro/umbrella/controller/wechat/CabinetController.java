@@ -20,11 +20,11 @@ public class CabinetController {
     @Resource
     private FeedBackService feedBackService;
 
-    @RequestMapping("/add")
-    public JsonResult register(@RequestBody Feedback req) {
-        //uid content必传，其他选传
-        return JsonResult.success(feedBackService.add(req));
-    }
+//    @RequestMapping("/add")
+//    public JsonResult register(@RequestBody Feedback req) {
+//        //uid content必传，其他选传
+//        return JsonResult.success(feedBackService.add(req));
+//    }
 
 
 }
